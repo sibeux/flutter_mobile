@@ -18,6 +18,13 @@ class _MenuListState extends State<MenuList> {
     "assets/images/food3.jpg",
     "assets/images/food4.jpg",
     "assets/images/food5.jpg",
+    "assets/images/food.jpg",
+    "assets/images/food2.jpg",
+    "assets/images/food3.jpg",
+    "assets/images/food4.jpg",
+    "assets/images/food5.jpg",
+    "assets/images/food4.jpg",
+    "assets/images/food5.jpg",
   ];
 
   @override
@@ -41,17 +48,46 @@ class ItemCountLV extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Container(
-        child: ListView.builder(
-            itemCount: foodGambar.length,
-            itemBuilder: (context, index) => Container(
-                  height: 200,
-                  margin: EdgeInsets.only(top: 10),
-                  child: Image.asset(
-                    foodGambar[index],
-                    // fit: BoxFit.cover,
-                  ),
-                )),
-      )),
+              child:
+                  // BasicListView(foodGambar: foodGambar),
+                  GridView.builder(
+                      itemCount: foodGambar.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1 / 1,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10),
+                      itemBuilder: (context, index) => Container(
+                            height: 100,
+                            width: 100,
+                            child: Image.asset(
+                              foodGambar[index],
+                              fit: BoxFit.cover,
+                            ),
+                          )))),
     );
+  }
+}
+
+class BasicListView extends StatelessWidget {
+  const BasicListView({
+    Key? key,
+    required this.foodGambar,
+  }) : super(key: key);
+
+  final List foodGambar;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: foodGambar.length,
+        itemBuilder: (context, index) => Container(
+              height: 200,
+              margin: EdgeInsets.only(top: 10),
+              child: Image.asset(
+                foodGambar[index],
+                // fit: BoxFit.cover,
+              ),
+            ));
   }
 }
