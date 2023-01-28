@@ -1,17 +1,18 @@
-// ignore_for_file: unused_import, implementation_imports, unnecessary_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
+// ignore_for_file: unused_import, implementation_imports, unnecessary_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_mobile/course_kopianan/presentation/item_detail/item_detail_page.dart';
 
-class MenuList extends StatefulWidget {
-  const MenuList({super.key});
+class MenuListPage extends StatefulWidget {
+  const MenuListPage({super.key});
 
   @override
-  State<MenuList> createState() => _MenuListState();
+  State<MenuListPage> createState() => _MenuListState();
 }
 
-class _MenuListState extends State<MenuList> {
+class _MenuListState extends State<MenuListPage> {
   List<String> foodGambar = [
     "assets/images/food.jpg",
     "assets/images/food2.jpg",
@@ -57,14 +58,36 @@ class ItemCountLV extends StatelessWidget {
                           childAspectRatio: 1 / 1,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10),
-                      itemBuilder: (context, index) => Container(
-                            height: 100,
-                            width: 100,
-                            child: Image.asset(
-                              foodGambar[index],
-                              fit: BoxFit.cover,
-                            ),
-                          )))),
+                      itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ItemDetailPage(
+                                      gambar: foodGambar[index],
+                                    )));
+                          },
+                          child:
+                              ListImageItem(foodGambar: foodGambar[index]))))),
+    );
+  }
+}
+
+class ListImageItem extends StatelessWidget {
+  const ListImageItem({
+    Key? key,
+    required this.foodGambar,
+  }) : super(key: key);
+
+  final String foodGambar;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: 100,
+      child: Image.asset(
+        foodGambar,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
