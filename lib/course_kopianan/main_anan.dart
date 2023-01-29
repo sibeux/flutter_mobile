@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/course_kopianan/presentation/menu_list/menu_list_page.dart';
+import 'package:flutter_mobile/course_kopianan/presentation/profile/profile_page.dart';
 
 import 'presentation/home/home.dart';
 
@@ -20,7 +21,7 @@ class MyAppAnan extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       // home: Home(),
-      home: MenuListPage(),
+      home: ProfilePage(),
     );
   }
 }
