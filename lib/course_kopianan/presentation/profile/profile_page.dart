@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 247, 245, 227),
       body: SafeArea(
-          child: Container(
+          child: Center(
         child: Container(
           height: 250,
           width: double.infinity,
@@ -78,9 +78,33 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Expanded(
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Flexible(
                             child: Container(
-                          color: Colors.amber,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color.fromARGB(255, 162, 204, 226)),
+                          height: 60,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              DataBumbu(
+                                title: "Calories",
+                                value: "200",
+                              ),
+                              DataBumbu(
+                                title: "Salt",
+                                value: "20",
+                              ),
+                              DataBumbu(
+                                title: "Sugar",
+                                value: "100",
+                              ),
+                            ],
+                          ),
                         ))
                       ]),
                 ))
@@ -135,6 +159,44 @@ class _ProfilePageState extends State<ProfilePage> {
           ]),
         ),
       )),
+    );
+  }
+}
+
+class DataBumbu extends StatelessWidget {
+  const DataBumbu({
+    Key? key,
+    required this.title,
+    required this.value,
+  }) : super(key: key);
+
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Color.fromARGB(255, 97, 95, 95),
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
