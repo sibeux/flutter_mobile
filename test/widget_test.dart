@@ -6,13 +6,13 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/udemy_max/gradient_container.dart';
+import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(GradientContainer(
+    await tester.pumpWidget(const GradientContainer(
       colorTop: Colors.red,
       colorBottom: Colors.yellow,
     ));
