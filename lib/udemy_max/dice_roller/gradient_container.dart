@@ -12,6 +12,7 @@ class GradientContainer extends StatelessWidget {
   });
 
   final Color colorTop;
+  
   final Color colorBottom;
   
   @override
