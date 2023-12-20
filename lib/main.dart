@@ -1,29 +1,14 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/course_kopianan/main_anan.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
+import 'package:flutter_mobile/udemy_max/dice_roller/main_dice_roller.dart';
+import 'package:flutter_mobile/udemy_max/quiz_app/main_quiz_app.dart';
 import 'package:flutter_mobile/udemy_max/quiz_app/start_screen.dart';
 
 void main(List<String> args) {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              Colors.red,
-              Colors.blue,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )),
-          child: const StartScreen(),
-        ),
-
-        // body: GradientContainer(
-        //   colorTop: Colors.red,
-        //   colorBottom: Colors.blue,
-        // ),
-      ),
-    ),
+  // tinggal ganti MainApp-nya 
+  runApp(const MainQuizApp()
   );
 }

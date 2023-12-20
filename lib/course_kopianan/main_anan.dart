@@ -6,10 +6,6 @@ import 'package:flutter_mobile/course_kopianan/presentation/profile/profile_page
 
 import 'presentation/home/home.dart';
 
-void main(List<String> args) {
-  runApp(MyAppAnan());
-}
-
 class MyAppAnan extends StatelessWidget {
   const MyAppAnan({super.key});
 
