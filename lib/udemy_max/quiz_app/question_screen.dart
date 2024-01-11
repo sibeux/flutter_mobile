@@ -4,7 +4,9 @@ import 'package:flutter_mobile/udemy_max/quiz_app/data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  const QuestionScreen({super.key, required this.onAnswerSelected});
+
+  final void Function(String answer) onAnswerSelected;
 
   @override
   State<QuestionScreen> createState() {
@@ -15,7 +17,8 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   var currentQuestionIndex = 0;
 
-  void answerQuestion() {
+  void answerQuestion(String selectedAnswer) {
+    widget.onAnswerSelected(selectedAnswer);
     setState(() {
       currentQuestionIndex++;
     });
@@ -54,7 +57,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 .getShuffledAnswers()
                 .map((answer) => AnswerButton(
                       answerText: answer,
-                      onPressed: answerQuestion,
+                      onPressed: () {
+                        answerQuestion(answer);
+                      },
                     ))
           ],
         ),
