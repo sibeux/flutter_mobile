@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/models/expense.dart';
+import 'package:flutter_mobile/udemy_max/expenses_track/widgets/new_expense.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -25,6 +26,15 @@ class _ExpensesState extends State<Expenses> {
         category: Category.game),
   ];
 
+  void _openAddExpenseOverlay(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) {
+        return const NewExpense();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +42,7 @@ class _ExpensesState extends State<Expenses> {
         title: const Text('Flutter Expenses Tracker'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => _openAddExpenseOverlay(context),
             icon: const Icon(Icons.add),
           ),
         ],
