@@ -55,7 +55,8 @@ class _ExpensesState extends State<Expenses> {
         duration: const Duration(seconds: 3),
         content: const Text('Expense removed'),
         action: SnackBarAction(
-            label: 'Undo',
+          label: 'Undo',
+          textColor: Colors.white,
             onPressed: () {
               setState(
                 () {
@@ -85,6 +86,7 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
             onPressed: () => _openAddExpenseOverlay(context),
             icon: const Icon(Icons.add),
+            color: Colors.white,
           ),
         ],
       ),
