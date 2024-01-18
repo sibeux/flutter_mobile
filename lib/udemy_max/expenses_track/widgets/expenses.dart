@@ -18,21 +18,30 @@ class _ExpensesState extends State<Expenses> {
         title: 'Apple',
         amount: 5.00,
         date: DateTime.now(),
-        category: Category.food),
+        category: CategoryExpenses.food),
     Expense(
         title: 'Limbo',
         amount: 9.99,
         date: DateTime.now(),
-        category: Category.game),
+        category: CategoryExpenses.game),
   ];
 
   void _openAddExpenseOverlay(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (ctx) {
-        return const NewExpense();
+        return NewExpense(
+          addExpense: _addExpense,
+        );
       },
     );
+  }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
   }
 
   @override
