@@ -59,7 +59,7 @@ class MainExpensesApp extends StatelessWidget {
             ),
       ),
       // themeMode: ThemeMode.sytems, => default
-      themeMode: ThemeMode.dark,
+      // themeMode: ThemeMode.dark,
       home: const Expenses(),
     );
   }

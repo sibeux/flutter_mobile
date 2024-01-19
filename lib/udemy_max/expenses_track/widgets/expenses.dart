@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/udemy_max/expenses_track/widgets/chart/chart.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/models/expense.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/widgets/new_expense.dart';
@@ -55,8 +56,8 @@ class _ExpensesState extends State<Expenses> {
         duration: const Duration(seconds: 3),
         content: const Text('Expense removed'),
         action: SnackBarAction(
-          label: 'Undo',
-          textColor: Colors.white,
+            label: 'Undo',
+            textColor: Colors.white,
             onPressed: () {
               setState(
                 () {
@@ -92,7 +93,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text('The Chart'),
+          Chart(expenses: _registeredExpenses),
           Expanded(
             child: mainContent,
           ),
