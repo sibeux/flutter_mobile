@@ -12,13 +12,10 @@ import 'package:flutter_mobile/udemy_max/quiz_app/start_screen.dart';
 void main(List<String> args) {
 
   // lock orientation to portrait
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-  //     .then((fn) {
-    // tinggal ganti MainApp-nya
-  //   runApp(const MainExpensesApp());
-  // });
-
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((fn) {
     // tinggal ganti MainApp-nya
     runApp(const MainExpensesApp());
+  });
 }
