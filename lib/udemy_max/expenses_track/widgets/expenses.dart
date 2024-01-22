@@ -85,6 +85,7 @@ final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Flutter Expenses Tracker'),
         actions: [
           IconButton(
