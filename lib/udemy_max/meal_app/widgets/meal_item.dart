@@ -13,6 +13,12 @@ class MealItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      margin: const EdgeInsets.all(10),
+      clipBehavior: Clip.hardEdge,
+      elevation: 2,
       child: InkWell(
         onTap: () {},
         child: Stack(
@@ -20,12 +26,15 @@ class MealItem extends StatelessWidget {
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl),
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
             ),
             Positioned(
-              bottom: 20,
-              right: 10,
+              bottom: 0,
+              right: 0,
+              left: 0,
               child: Container(
-                width: 300,
                 color: Colors.black54,
                 padding: const EdgeInsets.symmetric(
                   vertical: 5,
@@ -35,12 +44,23 @@ class MealItem extends StatelessWidget {
                   children: [
                     Text(
                       meal.title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 26,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                       softWrap: true,
-                      overflow: TextOverflow.fade,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 12,),
+                    Row(
+                      children: [
+                        const Icon(Icons.schedule),
+                        const SizedBox(width: 6,),
+                        Text('${meal.duration} min'),
+                      ],
                     ),
                   ],
                 ),
