@@ -4,10 +4,10 @@ import 'package:flutter_mobile/udemy_max/meal_app/screens/meal_details.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({Key? key, required this.title, required this.meals})
+  const MealsScreen({Key? key, this.title, required this.meals})
       : super(key: key);
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   void selectMeal(BuildContext context, Meal meal) {
@@ -47,9 +47,13 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    if (title == null) {
+      return content;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: content,
     );
