@@ -18,13 +18,9 @@ void main(List<String> args) {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((fn) {
     // tinggal ganti MainApp-nya
+
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
-
-    runApp(
-      const ProviderScope(
-        child: MainMealApp(),
-      ),
-    );
+    runApp(const ProviderScope(child: MainMealApp()));
   });
 }
