@@ -16,8 +16,8 @@ void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((fn) {
-    // tinggal ganti MainApp-nya
 
+    // tinggal ganti MainApp-nya
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
     runApp(const MainMealApp());
