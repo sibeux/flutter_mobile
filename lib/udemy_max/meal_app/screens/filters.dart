@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_mobile/udemy_max/meal_app/screens/tabs.dart';
 // import 'package:flutter_mobile/udemy_max/meal_app/widgets/main_drawer.dart';
 
+enum Filter {
+  GlutenFree,
+  LactoseFree,
+  Vegetarian,
+  Vegan,
+}
+
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
     Key? key,
@@ -35,25 +42,40 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //     }
       //   },
       // ),
-      body: Column(
-        children: [
-          listFilters(context,
-              title: 'Gluten-free',
-              subtitle: 'Only include gluten-free meals.',
-              value: _glutenFreeFilterSet),
-          listFilters(context,
-              title: 'Lactose-free',
-              subtitle: 'Only include lactose-free meals.',
-              value: _lactoseFreeFilterSet),
-          listFilters(context,
-              title: 'Vegetarian-free',
-              subtitle: 'Only include vegetarian-free meals.',
-              value: _vegetarianFreeFilterSet),
-          listFilters(context,
-              title: 'Vegan-free',
-              subtitle: 'Only include vegan-free meals.',
-              value: _veganFreeFilterSet),
-        ],
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) {
+          if (didPop) {
+            Navigator.of(context).pop(
+              {
+                Filter.GlutenFree: _glutenFreeFilterSet,
+                Filter.LactoseFree: _lactoseFreeFilterSet,
+                Filter.Vegetarian: _vegetarianFreeFilterSet,
+                Filter.Vegan: _veganFreeFilterSet,
+              },
+            );
+          }
+        },
+        child: Column(
+          children: [
+            listFilters(context,
+                title: 'Gluten-free',
+                subtitle: 'Only include gluten-free meals.',
+                value: _glutenFreeFilterSet),
+            listFilters(context,
+                title: 'Lactose-free',
+                subtitle: 'Only include lactose-free meals.',
+                value: _lactoseFreeFilterSet),
+            listFilters(context,
+                title: 'Vegetarian-free',
+                subtitle: 'Only include vegetarian-free meals.',
+                value: _vegetarianFreeFilterSet),
+            listFilters(context,
+                title: 'Vegan-free',
+                subtitle: 'Only include vegan-free meals.',
+                value: _veganFreeFilterSet),
+          ],
+        ),
       ),
     );
   }
