@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobile/SiHALAL-ecommerce-app/main_sihalal_app.dart';
 import 'package:flutter_mobile/course_kopianan/main_anan.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/main_dice_roller.dart';
@@ -21,6 +22,7 @@ void main(List<String> args) {
 
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
-    runApp(const ProviderScope(child: MainMealApp()));
+    runApp(const MainSihalalApp());
+    // runApp(const ProviderScope(child: MainMealApp()));
   });
 }
