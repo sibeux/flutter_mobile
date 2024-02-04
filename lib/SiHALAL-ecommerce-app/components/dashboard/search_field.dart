@@ -12,9 +12,10 @@ class SearchField extends StatelessWidget {
       height: 38,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
         border: Border.all(
           color: const Color.fromARGB(255, 217, 220, 231),
-          width: 1,
+          width: 2,
         ),
       ),
       child: TextField(
@@ -25,7 +26,7 @@ class SearchField extends StatelessWidget {
             hintText: 'Cari di SiHALAL',
             hintStyle: TextStyle(
               color: Color.fromARGB(255, 103, 103, 102),
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w300,
             ),
             prefixIcon: Icon(
@@ -35,7 +36,7 @@ class SearchField extends StatelessWidget {
             prefixIconColor: Color.fromARGB(255, 103, 103, 102),
             contentPadding: EdgeInsets.symmetric(
               horizontal: 20,
-              vertical: 9,
+              vertical: 11.5,
             )),
       ),
     );

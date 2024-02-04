@@ -9,33 +9,36 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      child: Row(
-        children: [
-          const SearchField(),
-          const SizedBox(
-            width: 10,
-          ),
-          IconBtnWithCounter(
-            iconBar: Icons.shopping_cart,
-            numOfItems: 3,
-            press: () {},
-          ),
-          IconBtnWithCounter(
-            iconBar: Icons.message_rounded,
-            numOfItems: 3,
-            press: () {},
-          ),
-          IconBtnWithCounter(
-            iconBar: Icons.menu,
-            numOfItems: 0,
-            press: () {},
-          ),
-        ],
+    return Container(
+      color: const Color.fromARGB(255, 61, 195, 163),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: Row(
+          children: [
+            const SearchField(),
+            const SizedBox(
+              width: 10,
+            ),
+            IconBtnWithCounter(
+              iconBar: Icons.shopping_cart_rounded,
+              numOfItems: 3,
+              press: () {},
+            ),
+            IconBtnWithCounter(
+              iconBar: Icons.message_rounded,
+              numOfItems: 3,
+              press: () {},
+            ),
+            IconBtnWithCounter(
+              iconBar: Icons.menu,
+              numOfItems: 0,
+              press: () {},
+            ),
+          ],
+        ),
       ),
     );
   }

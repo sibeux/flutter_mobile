@@ -25,11 +25,10 @@ class IconBtnWithCounter extends StatelessWidget {
               width: 46,
               child: Icon(
                 iconBar,
-                color: const Color.fromARGB(255, 103, 103, 102),
+                color: const Color.fromARGB(255, 255, 255, 255),
               ),
             ),
-            if (numOfItems != 0)
-              RedNoteIcon(numOfItems: numOfItems)
+            if (numOfItems != 0) RedNoteIcon(numOfItems: numOfItems)
           ],
         ),
       ),
