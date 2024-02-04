@@ -13,6 +13,9 @@ class DashboardScreen extends StatelessWidget {
           child: Column(
             children: [
               HomeHeader(),
+              SizedBox(
+                height: 10,
+              ),
               ImageSlider(),
             ],
           ),

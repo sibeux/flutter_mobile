@@ -54,7 +54,7 @@ class ImageSlider extends StatelessWidget {
           controller: _pageController,
           count: 5,
           effect: const ExpandingDotsEffect(
-            activeDotColor: Color.fromARGB(255, 61, 195, 163),
+            activeDotColor: Color.fromARGB(255, 0, 169, 88),
             dotColor: Colors.grey,
             dotHeight: 7,
             dotWidth: 7,

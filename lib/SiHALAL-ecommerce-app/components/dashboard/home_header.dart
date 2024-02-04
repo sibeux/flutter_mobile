@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/components/dashboard/icon_btn_with_counter.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/components/dashboard/search_field.dart';
+import 'package:flutter_mobile/SiHALAL-ecommerce-app/main_sihalal_app.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -10,7 +11,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 61, 195, 163),
+      color: kPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
