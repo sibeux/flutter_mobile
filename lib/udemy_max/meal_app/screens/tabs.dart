@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/providers/favorites_provider.dart';
+import 'package:flutter_mobile/udemy_max/meal_app/providers/filters_provider.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/providers/meals_provider.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/screens/categories.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/screens/filters.dart';
