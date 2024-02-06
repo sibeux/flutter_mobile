@@ -22,7 +22,7 @@ void main(List<String> args) {
 
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
-    runApp(const MainSihalalApp());
     // runApp(const ProviderScope(child: MainMealApp()));
+    runApp(const ProviderScope(child: MainSihalalApp()));
   });
 }
