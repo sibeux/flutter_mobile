@@ -13,52 +13,81 @@ class ProductCardRowScroll extends StatelessWidget {
   const ProductCardRowScroll({
     super.key,
     required this.color,
+    required this.cardHeader,
   });
 
   final String color;
+  final String cardHeader;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 370,
-      decoration: BoxDecoration(
-        color: HexColor(color),
-        image: const DecorationImage(
-          alignment: AlignmentDirectional.centerStart,
-          fit: BoxFit.fitHeight,
-          image: NetworkImage(
-            'https://cdn.discordapp.com/attachments/1203953170901110794/1204478598937837668/Mask_group.png?ex=65d4e11c&is=65c26c1c&hm=d2a550b891dab02a821e2f24e88026103acec9f2aff679879c86203a10df5a2d&',
-          ),
-        ),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
+    return Column(
+      children: [
+        Row(
           children: [
-            SizedBox(width: MediaQuery.of(context).size.width * 0.43),
-            const ProductCard(
-              title: 'Sweet apple ',
-              subtitle: '12 pieces per 1kg',
-              rating: 3.5,
-              price: 12000,
+            Flexible(
+              flex: 2,
+              fit: FlexFit.tight,
+              child: Container(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  cardHeader,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 16,
+                    fontWeight: FontWeight.values[5],
+                  ),
+                ),
+              ),
             ),
-            const CoreButton(),
-            const CoreButton(),
-            const ProductCard(
-              title: 'Sweet apple ',
-              subtitle: '12 pieces per 1kg',
-              rating: 4.5,
-              price: 12000,
-            ),
-            const ProductCard(
-              title: 'Sweet apple with green label',
-              subtitle: '12 pieces per 1kg',
-              rating: 3.5,
-              price: 1500000,
-            ),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    'Lihat Semua',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
+                      fontWeight: FontWeight.values[5],
+                    ),
+                  )),
+            )
           ],
         ),
-      ),
+        const SizedBox(height: 15),
+        Container(
+          height: 370,
+          decoration: BoxDecoration(
+            color: HexColor(color),
+            image: const DecorationImage(
+              alignment: AlignmentDirectional.centerStart,
+              fit: BoxFit.fitHeight,
+              image: NetworkImage(
+                  "https://static.vecteezy.com/system/resources/previews/024/195/241/non_2x/natural-foods-food-vegetable-ai-generated-free-png.png"),
+            ),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.43),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+                const CoreButton(),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
