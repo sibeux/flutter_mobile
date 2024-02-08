@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_mobile/SiHALAL-ecommerce-app/provider/tab_opacity_provider.dart';
+import 'package:flutter_mobile/SiHALAL-ecommerce-app/provider/product_card_provider.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/widgets/little_particle.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/widgets/shrink_tap_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 NumberFormat numberFormat =
     NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0);
 
-class ProductCardRowScroll extends StatelessWidget {
+class ProductCardRowScroll extends ConsumerWidget {
   const ProductCardRowScroll({
     super.key,
     required this.color,
@@ -20,7 +20,9 @@ class ProductCardRowScroll extends StatelessWidget {
   final String cardHeader;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dummyProductCard = ref.watch(productCardProvider_1);
+
     return Column(
       children: [
         Row(
@@ -67,7 +69,7 @@ class ProductCardRowScroll extends StatelessWidget {
               alignment: AlignmentDirectional.centerStart,
               fit: BoxFit.fitHeight,
               image: NetworkImage(
-                  "https://static.vecteezy.com/system/resources/previews/024/195/241/non_2x/natural-foods-food-vegetable-ai-generated-free-png.png"),
+                  "https://cdn.discordapp.com/attachments/1203953170901110794/1205086820577185812/Mask_group.png?ex=65d7178f&is=65c4a28f&hm=97b5b85283c8e36ebdcf30d8d991a4f5ad37a64508f233b631528cafc20b6695&"),
             ),
           ),
           child: SingleChildScrollView(
@@ -75,14 +77,16 @@ class ProductCardRowScroll extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * 0.43),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
-                const CoreButton(),
+                // create for each product card from dummyProductCard
+                for (var product in dummyProductCard)
+                  ShrinkCardProduct(
+                    title: product.title,
+                    description: product.description,
+                    price: product.price,
+                    rating: product.rating,
+                    image: product.image,
+                  ),
+                const SizedBox(width: 10),
               ],
             ),
           ),
@@ -97,14 +101,13 @@ class ProductCard extends ConsumerWidget {
     super.key,
     required this.rating,
     required this.title,
-    required this.subtitle,
     required this.price,
+    required this.description,
+    required this.image,
   });
 
-  final double rating;
-  final String title;
-  final String subtitle;
-  final double price;
+  final String title, description, image;
+  final double rating, price;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -126,13 +129,13 @@ class ProductCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          const ProductImage(),
+          ProductImage(image: image),
           const SizedBox(height: 5),
           Rating(rating: rating),
           const SizedBox(height: 10),
           ProductTitle(title: title),
           const SizedBox(height: 2),
-          ProductSubtitle(subtitle: subtitle),
+          ProductDescription(description: description),
           const SizedBox(height: 10),
           ProductPrice(price: price),
           const InkButton(
@@ -160,12 +163,14 @@ class ProductPrice extends StatelessWidget {
       child: Container(
         alignment: Alignment.topLeft,
         margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: Text((numberFormat.format(price)),
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            )),
+        child: Text(
+          (numberFormat.format(price)),
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
@@ -174,7 +179,10 @@ class ProductPrice extends StatelessWidget {
 class ProductImage extends StatelessWidget {
   const ProductImage({
     super.key,
+    required this.image,
   });
+
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +197,9 @@ class ProductImage extends StatelessWidget {
         topRight: Radius.circular(10),
       )),
       child: Image.network(
-          'https://cdn.discordapp.com/attachments/1203953170901110794/1204377726132162611/sliced-green-apple-isolated-white-background_93675-131248.png?ex=65d4832a&is=65c20e2a&hm=e9b3d27691dd93427f432cf2b1f3ffac4d859d3995dfb858ab6c6d0f7de84d0f&',
-          fit: BoxFit.cover),
+        image,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
@@ -237,13 +246,13 @@ class Rating extends StatelessWidget {
   }
 }
 
-class ProductSubtitle extends StatelessWidget {
-  const ProductSubtitle({
+class ProductDescription extends StatelessWidget {
+  const ProductDescription({
     super.key,
-    required this.subtitle,
+    required this.description,
   });
 
-  final String subtitle;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +260,7 @@ class ProductSubtitle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.topLeft,
       child: Text(
-        subtitle,
+        description,
         style: const TextStyle(
           color: Colors.black54,
           fontSize: 12,

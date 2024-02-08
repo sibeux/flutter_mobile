@@ -5,16 +5,24 @@ import 'package:flutter_mobile/SiHALAL-ecommerce-app/widgets/dashboard/product_c
 
 double colorOnTap = 1;
 
-class CoreButton extends StatefulWidget {
-  const CoreButton({
+class ShrinkCardProduct extends StatefulWidget {
+  const ShrinkCardProduct({
     super.key,
+    required this.title,
+    required this.description,
+    required this.rating,
+    required this.price,
+    required this.image,
   });
 
+  final String title, description, image;
+  final double rating, price;
+
   @override
-  CoreButtonState createState() => CoreButtonState();
+  ShrinkCardProductState createState() => ShrinkCardProductState();
 }
 
-class CoreButtonState extends State<CoreButton>
+class ShrinkCardProductState extends State<ShrinkCardProduct>
     with SingleTickerProviderStateMixin {
   static const clickAnimationDurationMillis = 100;
 
@@ -114,11 +122,12 @@ class CoreButtonState extends State<CoreButton>
               ),
               Opacity(
                 opacity: colorOnTap,
-                child: const ProductCard(
-                  title: 'Sweet apple with green label',
-                  subtitle: '12 pieces per 1kg',
-                  rating: 3.5,
-                  price: 1500000,
+                child: ProductCard(
+                  title: widget.title,
+                  description: widget.description,
+                  rating: widget.rating,
+                  price: widget.price,
+                  image: widget.image,
                 ),
               ),
             ],

@@ -35,8 +35,8 @@ class _ImageSliderState extends ConsumerState<ImageSlider> {
           child: VxSwiper.builder(
             itemCount: itemCount,
             autoPlay: true,
-            height: 200,
-            // aspectRatio: 16 / 9,
+            // height: 200,
+            aspectRatio: 16 / 8,
             viewportFraction: 0.95,
             initialPage: 0,
             onPageChanged: (value) {
