@@ -10,6 +10,7 @@ import 'package:flutter_mobile/udemy_max/expenses_track/main_expenses_app.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/meal_app_main.dart';
 import 'package:flutter_mobile/udemy_max/quiz_app/main_quiz_app.dart';
 import 'package:flutter_mobile/udemy_max/quiz_app/start_screen.dart';
+import 'package:flutter_mobile/udemy_max/shopping_list/shopping_list_app.dart';
 import 'package:flutter_mobile/udemy_max/todo_app/main_todo_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,8 @@ void main(List<String> args) {
 
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
-    runApp(const ProviderScope(child: MainMealApp()));
+    // runApp(const ProviderScope(child: MainMealApp()));
     // runApp(const ProviderScope(child: MainSihalalApp()));
+    runApp(const ShoppingListApp());
   });
 }
