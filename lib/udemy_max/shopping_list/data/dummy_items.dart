@@ -1,4 +1,8 @@
-const groceryItems = [
+import 'package:flutter_mobile/udemy_max/shopping_list/data/categories.dart';
+import 'package:flutter_mobile/udemy_max/shopping_list/models/category.dart';
+import 'package:flutter_mobile/udemy_max/shopping_list/models/grocery_item.dart';
+
+final groceryItems = [
   GroceryItem(
       id: 'a',
       name: 'Milk',
