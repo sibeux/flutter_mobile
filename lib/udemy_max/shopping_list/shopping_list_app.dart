@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/udemy_max/shopping_list/widgets/grocery_list.dart';
 
 class ShoppingListApp extends StatelessWidget {
   const ShoppingListApp({super.key});
@@ -16,7 +17,7 @@ class ShoppingListApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: ...,
+      home: const GroceryList(),
     );
   }
 }
