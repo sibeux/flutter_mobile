@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/udemy_max/shopping_list/data/categories.dart';
-import 'package:flutter_mobile/udemy_max/shopping_list/data/dummy_items.dart';
 import 'package:flutter_mobile/udemy_max/shopping_list/models/grocery_item.dart';
 import 'package:flutter_mobile/udemy_max/shopping_list/widgets/new_item.dart';
 import 'package:http/http.dart' as http;
@@ -50,13 +49,19 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   void _addItem() async {
-    await Navigator.of(context).push<GroceryItem>(
+    final newItem = await Navigator.of(context).push<GroceryItem>(
       MaterialPageRoute(
         builder: (context) => const NewItem(),
       ),
     );
 
-    _loadItems();
+    if (newItem == null) {
+      return;
+    }
+
+    setState(() {
+      _groceryItems.add(newItem);
+    });
   }
 
   void _removeItem(GroceryItem item) {
