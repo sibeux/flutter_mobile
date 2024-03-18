@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/udemy_max/favorite_places/model/place.dart';
+import 'package:flutter_mobile/udemy_max/favorite_places/screens/places_detail.dart';
 
 class PlaceList extends StatelessWidget {
   const PlaceList({super.key, required this.places});
@@ -28,6 +29,15 @@ class PlaceList extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return PlaceDetailScreen(place: places[index]);
+                    },
+                  ),
+                );
+              },
             ));
   }
 }
