@@ -7,6 +7,7 @@ import 'package:flutter_mobile/course_kopianan/main_anan.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/main_dice_roller.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/main_expenses_app.dart';
+import 'package:flutter_mobile/udemy_max/favorite_places/favorite_app_main.dart';
 import 'package:flutter_mobile/udemy_max/meal_app/meal_app_main.dart';
 import 'package:flutter_mobile/udemy_max/quiz_app/main_quiz_app.dart';
 import 'package:flutter_mobile/udemy_max/quiz_app/start_screen.dart';
@@ -25,6 +26,7 @@ void main(List<String> args) {
     // runApp(const MainTodoApp());
     // runApp(const ProviderScope(child: MainMealApp()));
     // runApp(const ProviderScope(child: MainSihalalApp()));
-    runApp(const ShoppingListApp());
+    // runApp(const ShoppingListApp());
+    runApp(const FavoriteAppMain());
   });
 }
