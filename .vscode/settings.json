@@ -1,4 +1,7 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "dart.previewFlutterUiGuides": true,
+    "editor.tokenColorCustomizations": {
+        "comments": "#00ffc8"
+    },
 }

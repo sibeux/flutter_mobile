@@ -27,6 +27,6 @@ void main(List<String> args) {
     // runApp(const ProviderScope(child: MainMealApp()));
     // runApp(const ProviderScope(child: MainSihalalApp()));
     // runApp(const ShoppingListApp());
-    runApp(const FavoriteAppMain());
+    runApp(const ProviderScope(child: FavoriteAppMain()));
   });
 }
