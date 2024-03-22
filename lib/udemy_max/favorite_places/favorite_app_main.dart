@@ -26,7 +26,7 @@ final theme = ThemeData().copyWith(
 );
 
 class FavoriteAppMain extends StatelessWidget {
-  const FavoriteAppMain({Key? key}) : super(key: key);
+  const FavoriteAppMain({super.key});
 
   @override
   Widget build(BuildContext context) {
