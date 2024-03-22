@@ -16,7 +16,7 @@ class _LocationInputState extends State<LocationInput> {
   PlaceLocation? pickedLocation;
   var isGettingLocation = false;
 
-  String get locationImage{
+  String get locationImage {
     if (pickedLocation == null) {
       return '';
     }
@@ -77,36 +77,42 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(BuildContext context) {
-    Widget previewContent = Text(
-      'No Location Chosen',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
+    Widget previewContent = Center(
+      child: Text(
+        'No Location Chosen',
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+      ),
     );
 
-    if (isGettingLocation) {
-      previewContent = const CircularProgressIndicator();
+    if (pickedLocation != null) {
+      previewContent = Image.network(
+        locationImage,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    } else if (isGettingLocation) {
+      // Show loading spinner in the center
+      previewContent = const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
     return Column(
       children: [
         Container(
-            height: 170,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-              width: 1,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            )),
-            child: Center(
-              child: Text(
-                'No Location Chosen',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-            )),
+          height: 170,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              border: Border.all(
+            width: 1,
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          )),
+          child: previewContent,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
