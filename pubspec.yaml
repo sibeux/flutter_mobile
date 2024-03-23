@@ -48,6 +48,7 @@ dependencies:
   http: ^1.2.0
   image_picker: ^1.0.7
   location: ^5.0.3-dev.8
+  google_maps_flutter: ^2.5.3
 
 dev_dependencies:
   flutter_test:
