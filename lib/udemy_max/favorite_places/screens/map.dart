@@ -17,33 +17,46 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedPosition;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.isSelecting ? 'Pick Location' : 'View Location'),
-          actions: [
-            if (widget.isSelecting)
-              IconButton(
-                icon: const Icon(Icons.save),
-                onPressed: () {
-                  Navigator.of(context).pop(widget.location);
-                },
-              ),
-          ],
-        ),
-        body: GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(widget.location.latitude, widget.location.longitude),
-              zoom: 16,
+      appBar: AppBar(
+        title: Text(widget.isSelecting ? 'Pick Location' : 'View Location'),
+        actions: [
+          if (widget.isSelecting)
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () {
+                Navigator.of(context).pop(_pickedPosition);
+              },
             ),
-            markers: {
-              Marker(
-                markerId: const MarkerId('m1'),
-                position:
-                    LatLng(widget.location.latitude, widget.location.longitude),
-              ),
-            }));
+        ],
+      ),
+      body: GoogleMap(
+        onTap: !widget.isSelecting
+            ? null
+            : (position) {
+                setState(() {
+                  _pickedPosition = position;
+                });
+              },
+        initialCameraPosition: CameraPosition(
+          target: LatLng(widget.location.latitude, widget.location.longitude),
+          zoom: 16,
+        ),
+        markers: (_pickedPosition == null && widget.isSelecting)
+            ? {}
+            : <Marker>{
+                Marker(
+                  markerId: const MarkerId('m1'),
+                  position: _pickedPosition ??
+                      LatLng(
+                          widget.location.latitude, widget.location.longitude),
+                ),
+              },
+      ),
+    );
   }
 }
