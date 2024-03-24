@@ -28,7 +28,7 @@ class _MusicScreenState extends State<MusicScreen> {
     // Start the audioPlayer as soon as the app is displayed.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await audioPlayer.setSourceUrl(
-          "https://github.com/sibeux/license-sibeux/raw/MyProgram/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%AD%8C/BURNOUT%20SYNDROMES-%20PHOENIX/BURNOUT%20SYNDROMES-%20PHOENIX.mp3");
+          "https://github.com/sibeux/sibeux-contrarians-syntaxianz/raw/main/demon-slayer-mugen-train/39_-_Flame_Breathing_9th_Form_RENGOKU_.mp3");
       await audioPlayer.resume();
     });
   }
