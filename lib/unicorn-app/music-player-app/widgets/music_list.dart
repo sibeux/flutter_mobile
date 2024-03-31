@@ -4,7 +4,10 @@ import 'package:hexcolor/hexcolor.dart';
 class MusicList extends StatelessWidget {
   const MusicList({
     super.key,
+    required this.numberMusic,
   });
+
+  final int numberMusic;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class MusicList extends StatelessWidget {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(left: 18),
                 child: Text(
-                  '01',
+                  numberMusic.toString().padLeft(2, '0'),
                   style: TextStyle(
                       fontSize: 15,
                       color: HexColor('#8d8c8c'),

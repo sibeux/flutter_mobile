@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:http/http.dart' as http;
 
 class MusicScreen extends StatefulWidget {
   const MusicScreen({super.key});
@@ -10,6 +13,13 @@ class MusicScreen extends StatefulWidget {
 }
 
 class _MusicScreenState extends State<MusicScreen> {
+  Future getMusisData() async {
+    const url =
+        'https://sibeux.my.id/cloud-music-player/database/mobile-music-player/api/db.php';
+    final response = await http.get(Uri.parse(url));
+    return json.decode(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,17 +100,31 @@ class _MusicScreenState extends State<MusicScreen> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    color: HexColor('#fefffe'),
-                    padding: const EdgeInsets.only(top: 8),
-                    width: double.infinity,
-                    child: ListView(
-                      children: [
-                        for (int i = 0; i < 10; i++) const MusicList(),
-                      ],
-                    ),
-                  ),
-                )
+                    child: Container(
+                  color: HexColor('#fefffe'),
+                  padding: const EdgeInsets.only(top: 8),
+                  width: double.infinity,
+                  child: FutureBuilder(
+                      future: getMusisData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                        }
+                        return snapshot.hasData
+                            ? ListView.builder(
+                                itemCount: snapshot.data.length,
+                                physics: const ClampingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return MusicList(
+                                    numberMusic: index + 1,
+                                  );
+                                },
+                              )
+                            : const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                      }),
+                ))
               ],
             ),
           ),
