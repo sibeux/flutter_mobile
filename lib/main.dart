@@ -15,6 +15,7 @@ import 'package:flutter_mobile/udemy_max/shopping_list/shopping_list_app.dart';
 import 'package:flutter_mobile/udemy_max/todo_app/main_todo_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/main_music_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/main_music_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main(List<String> args) {
@@ -31,5 +32,6 @@ void main(List<String> args) {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
+    runApp(const MainMusicPlayerApp());
   });
 }
