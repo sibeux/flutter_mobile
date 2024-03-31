@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
@@ -13,15 +14,100 @@ class MusicScreen extends StatefulWidget {
 }
 
 class _MusicScreenState extends State<MusicScreen> {
-  Future getMusisData() async {
+  String? _error;
+  var isLoading = true;
+  List<Music> _musicItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getMusicData();
+  }
+
+  void getMusicData() async {
     const url =
         'https://sibeux.my.id/cloud-music-player/database/mobile-music-player/api/db.php';
-    final response = await http.get(Uri.parse(url));
-    return json.decode(response.body);
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode >= 400) {
+        setState(() {
+          _error = 'Failed to load items';
+        });
+      }
+
+      if (response.body == 'null') {
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
+
+      final List<dynamic> listData = json.decode(response.body);
+      final List<Music> loadedItems = [];
+
+      for (final item in listData) {
+        loadedItems.add(
+          Music(
+            id: item['id_music'],
+            title: item['title'],
+            artist: item['artist'],
+            album: item['album'],
+            cover: item['cover'],
+            url: item['link_gdrive'],
+            duration: item['time'],
+            isFavorite: item['favorite'],
+          ),
+        );
+      }
+
+      setState(() {
+        _musicItems = loadedItems;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(
+        () {
+          _error = e.toString();
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget content = const Center(
+      child: Text('No music yet! Add some!'),
+    );
+
+    if (isLoading) {
+      content = const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (_musicItems.isNotEmpty) {
+      content = ListView.builder(
+        itemCount: _musicItems.length,
+        physics: const ClampingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return MusicList(
+            numberMusic: index + 1,
+            title: _musicItems[index].title,
+            artist: _musicItems[index].artist,
+            album: _musicItems[index].album,
+          );
+        },
+      );
+    }
+
+    if (_error != null) {
+      content = Center(
+        child: Text(_error!),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#fefffe'),
@@ -104,26 +190,15 @@ class _MusicScreenState extends State<MusicScreen> {
                   color: HexColor('#fefffe'),
                   padding: const EdgeInsets.only(top: 8),
                   width: double.infinity,
-                  child: FutureBuilder(
-                      future: getMusisData(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          print(snapshot.error);
-                        }
-                        return snapshot.hasData
-                            ? ListView.builder(
-                                itemCount: snapshot.data.length,
-                                physics: const ClampingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return MusicList(
-                                    numberMusic: index + 1,
-                                  );
-                                },
-                              )
-                            : const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                      }),
+                  child: content,
+                  // FutureBuilder(
+                  //     future: getMusicData(),
+                  //     builder: (context, snapshot) {
+                  //       if (snapshot.hasError) {
+                  //         print(snapshot.error);
+                  //       }
+                  //       return content;
+                  //     }),
                 ))
               ],
             ),

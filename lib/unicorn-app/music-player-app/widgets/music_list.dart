@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class MusicList extends StatelessWidget {
   const MusicList({
     super.key,
     required this.numberMusic,
+    required this.title,
+    required this.artist,
+    required this.album,
   });
 
   final int numberMusic;
+  final String title;
+  final String artist;
+  final String album;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class MusicList extends StatelessWidget {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'AUD-20210214-WA0001',
+                      capitalizeEachWord(title),
                       style: TextStyle(
                           fontSize: 16,
                           color: HexColor('#313031'),
@@ -70,20 +77,20 @@ class MusicList extends StatelessWidget {
                           width: 7,
                         ),
                         Expanded(
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: HexColor('#b4b5b4'),
-                                  overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.values[4],
-                                ),
-                                'Unknown Artist | Unknown Album'),
+                            child: Container(
+                          width: 30,
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: HexColor('#b4b5b4'),
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.values[4],
+                            ),
+                            '${capitalizeEachWord(artist)} | ${capitalizeEachWord(album)}',
                           ),
-                        ),
+                        )),
                       ],
                     ),
                   )
