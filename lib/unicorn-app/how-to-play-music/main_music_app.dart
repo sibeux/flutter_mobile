@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-from-link/screen/music_screen.dart';
+import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen.dart';
 
 class MainMusicApp extends StatelessWidget {
   const MainMusicApp({super.key});

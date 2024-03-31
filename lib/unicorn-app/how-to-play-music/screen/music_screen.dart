@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-from-link/widgets/player_widget.dart';
+import 'package:flutter_mobile/unicorn-app/how-to-play-music/widgets/player_widget.dart';
 
 class MusicScreen extends StatefulWidget {
   const MusicScreen({super.key});
