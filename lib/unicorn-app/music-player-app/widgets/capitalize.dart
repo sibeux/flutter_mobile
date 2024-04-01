@@ -1,9 +1,12 @@
 String capitalizeEachWord(String input) {
-  return input
-      .split(' ')
-      .where((word) => word.isNotEmpty)
-      .map((word) => word.capitalize())
-      .join(' ');
+  if (input.contains('&quot;')){
+    input = input.replaceAll('&quot;', '"');
+  }
+    return input
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .map((word) => word.capitalize())
+        .join(' ');
 }
 
 extension StringExtension on String {

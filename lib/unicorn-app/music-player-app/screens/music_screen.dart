@@ -132,9 +132,7 @@ class _MusicScreenState extends State<MusicScreen> {
           itemBuilder: (context, index) {
             return MusicList(
               numberMusic: index + 1,
-              title: _musicItems[index].title,
-              artist: _musicItems[index].artist,
-              album: _musicItems[index].album,
+              music: _musicItems[index],
             );
           },
         ),

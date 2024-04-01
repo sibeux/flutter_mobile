@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 
-class MusicDetailScreen extends StatefulWidget {
-  const MusicDetailScreen({super.key});
+class MusicDetailScreen extends StatelessWidget {
+  const MusicDetailScreen({super.key, required this.music});
 
-  @override
-  State<MusicDetailScreen> createState() => _MusicDetailScreenState();
-}
+  final Music music;
 
-class _MusicDetailScreenState extends State<MusicDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Music'),
+        title: Text(music.title),
       ),
     );
   }
