@@ -32,6 +32,6 @@ void main(List<String> args) {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
-    runApp(const MainMusicPlayerApp());
+    runApp(const ProviderScope(child: MainMusicPlayerApp()));
   });
 }

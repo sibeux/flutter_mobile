@@ -2,58 +2,71 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MusicDetailScreen extends StatefulWidget {
+class MusicDetailScreen extends ConsumerStatefulWidget {
   const MusicDetailScreen({super.key, required this.music});
 
   final Music music;
 
   @override
-  State<MusicDetailScreen> createState() => _MusicDetailScreenState();
+  ConsumerState<MusicDetailScreen> createState() => _MusicDetailScreenState();
 }
 
-class _MusicDetailScreenState extends State<MusicDetailScreen> {
+class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final _playMusic = ref.watch(playMusicProvider);
+
     return Stack(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: ClipRRect(
-            // ClipRRect is used to clip the image to a rounded rectangle
-            // awikwok banget nih, kalo ga pake ClipRRect, gambarnya bakal melebar melebihi ukuran layar
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(
-                sigmaY: 35,
-                sigmaX: 35,
-              ),
-              child: Image.network(
-                widget.music.cover,
-                scale: 5,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.low,
-                color: Colors.black.withOpacity(0.5),
-                colorBlendMode: BlendMode.darken,
-                errorBuilder: (context, exception, stackTrace) {
-                  return Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color.fromARGB(255, 126, 248, 60),
-                          Color.fromARGB(255, 253, 123, 123),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+        Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.black,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: ClipRRect(
+                // ClipRRect is used to clip the image to a rounded rectangle
+                // awikwok banget nih, kalo ga pake ClipRRect, gambarnya bakal melebar melebihi ukuran layar
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaY: 35,
+                    sigmaX: 35,
+                  ),
+                  child: Image.network(
+                    widget.music.cover,
+                    scale: 5,
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.low,
+                    color: Colors.black.withOpacity(0.5),
+                    colorBlendMode: BlendMode.darken,
+                    errorBuilder: (context, exception, stackTrace) {
+                      return Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color.fromARGB(255, 126, 248, 60),
+                              Color.fromARGB(255, 253, 123, 123),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
@@ -126,7 +139,7 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 25,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -150,6 +163,16 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    color: Colors.white,
+                    thickness: 1,
                   ),
                 ),
                 const SizedBox(
@@ -183,12 +206,24 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                         width: 10,
                       ),
                       IconButton(
-                        icon: const Icon(
-                          Icons.play_circle_fill,
+                        icon: Icon(
+                          _playMusic,
                           size: 60,
                           color: Colors.white,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            if (_playMusic == Icons.play_circle_fill) {
+                              ref.read(playMusicProvider.notifier).onPlayMusic(
+                                    Icons.pause_circle_filled,
+                                  );
+                            } else {
+                              ref.read(playMusicProvider.notifier).onPlayMusic(
+                                    Icons.play_circle_fill,
+                                  );
+                            }
+                          });
+                        },
                       ),
                       const SizedBox(
                         width: 10,
