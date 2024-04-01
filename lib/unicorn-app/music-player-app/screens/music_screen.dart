@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class MusicScreen extends StatefulWidget {
   const MusicScreen({super.key});
@@ -17,11 +19,45 @@ class _MusicScreenState extends State<MusicScreen> {
   String? _error;
   var isLoading = true;
   List<Music> _musicItems = [];
+  bool isLoadingVertical = false;
+  final int increment = 10;
 
   @override
   void initState() {
     super.initState();
     getMusicData();
+    _loadMoreVertical();
+  }
+
+  Future _loadMoreVertical() async {
+    setState(() {
+      isLoadingVertical = true;
+    });
+
+    // Add in an artificial delay
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
+
+    _musicItems.addAll(
+      List.generate(
+        increment,
+        (index) => Music(
+          id: _musicItems[_musicItems.length + index].id,
+          title: _musicItems[_musicItems.length + index].title,
+          artist: _musicItems[_musicItems.length + index].artist,
+          album: _musicItems[_musicItems.length + index].album,
+          cover: _musicItems[_musicItems.length + index].cover,
+          url: _musicItems[_musicItems.length + index].url,
+          duration: _musicItems[_musicItems.length + index].duration,
+          isFavorite: _musicItems[_musicItems.length + index].isFavorite,
+        ),
+      ),
+    );
+
+    setState(() {
+      isLoadingVertical = false;
+    });
   }
 
   void getMusicData() async {
@@ -82,23 +118,26 @@ class _MusicScreenState extends State<MusicScreen> {
     );
 
     if (isLoading) {
-      content = const Center(
-        child: CircularProgressIndicator(),
-      );
+      content = const ShimmerMusicList();
     }
 
     if (_musicItems.isNotEmpty) {
-      content = ListView.builder(
-        itemCount: _musicItems.length,
-        physics: const ClampingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return MusicList(
-            numberMusic: index + 1,
-            title: _musicItems[index].title,
-            artist: _musicItems[index].artist,
-            album: _musicItems[index].album,
-          );
-        },
+      content = LazyLoadScrollView(
+        isLoading: isLoadingVertical,
+        onEndOfPage: () => _loadMoreVertical(),
+        child: ListView.builder(
+          itemCount: _musicItems.length,
+          physics: const ClampingScrollPhysics(),
+          primary: false,
+          itemBuilder: (context, index) {
+            return MusicList(
+              numberMusic: index + 1,
+              title: _musicItems[index].title,
+              artist: _musicItems[index].artist,
+              album: _musicItems[index].album,
+            );
+          },
+        ),
       );
     }
 
