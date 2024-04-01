@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MusicScreen extends StatefulWidget {
   const MusicScreen({super.key});
@@ -130,9 +132,23 @@ class _MusicScreenState extends State<MusicScreen> {
           physics: const ClampingScrollPhysics(),
           primary: false,
           itemBuilder: (context, index) {
-            return MusicList(
-              numberMusic: index + 1,
-              music: _musicItems[index],
+            return InkWell(
+              child: MusicList(
+                numberMusic: index + 1,
+                music: _musicItems[index],
+              ),
+              onTap: () => Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: const Duration(milliseconds: 300),
+                  reverseDuration: const Duration(milliseconds: 300),
+                  child: MusicDetailScreen(
+                    music: _musicItems[index],
+                  ),
+                  childCurrent: const MusicScreen(),
+                ),
+              ),
             );
           },
         ),
