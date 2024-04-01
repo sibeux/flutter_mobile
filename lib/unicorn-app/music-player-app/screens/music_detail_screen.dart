@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MusicDetailScreen extends StatefulWidget {
   const MusicDetailScreen({super.key, required this.music});
@@ -18,23 +20,40 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
     return Stack(
       children: [
         SizedBox(
-          height: double.infinity,
           width: double.infinity,
-          child: ImageFiltered(
+          height: double.infinity,
+          child: ClipRRect(
+            // ClipRRect is used to clip the image to a rounded rectangle
+            // awikwok banget nih, kalo ga pake ClipRRect, gambarnya bakal melebar melebihi ukuran layar
+            child: ImageFiltered(
               imageFilter: ImageFilter.blur(
                 sigmaY: 35,
                 sigmaX: 35,
               ),
-              child: Image(
+              child: Image.network(
+                widget.music.cover,
+                scale: 5,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.low,
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withOpacity(0.5),
                 colorBlendMode: BlendMode.darken,
-                image: NetworkImage(
-                  widget.music.cover,
-                  scale: 5,
-                ),
-              )),
+                errorBuilder: (context, exception, stackTrace) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color.fromARGB(255, 126, 248, 60),
+                          Color.fromARGB(255, 253, 123, 123),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
@@ -72,12 +91,37 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   width: 340,
                   height: 350,
-                  decoration: BoxDecoration(
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      filterQuality: FilterQuality.low,
-                      image: NetworkImage(widget.music.cover),
+                    child: Image.network(
+                      widget.music.cover,
                       fit: BoxFit.cover,
+                      filterQuality: FilterQuality.low,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Shimmer(
+                          gradient: const LinearGradient(
+                            colors: [Colors.grey, Colors.white],
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, exception, stackTrace) {
+                        return Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.grey,
+                            child: const Icon(
+                              Icons.music_note_rounded,
+                              color: Colors.white,
+                              size: 50,
+                            ));
+                      },
                     ),
                   ),
                 ),
@@ -87,7 +131,7 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    widget.music.title,
+                    capitalizeEachWord(widget.music.title),
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 25,
@@ -100,7 +144,7 @@ class _MusicDetailScreenState extends State<MusicDetailScreen> {
                   height: 10,
                 ),
                 Text(
-                  widget.music.artist,
+                  capitalizeEachWord(widget.music.artist),
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 20,
