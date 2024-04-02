@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/main_sihalal_app.dart';
 import 'package:flutter_mobile/course_kopianan/main_anan.dart';
+import 'package:flutter_mobile/udemy_max/chat_app/main_chat_app.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/main_dice_roller.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/main_expenses_app.dart';
@@ -32,6 +33,7 @@ void main(List<String> args) {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
-    runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    runApp(const MainChatApp());
+    // runApp(const ProviderScope(child: MainMusicPlayerApp()));
   });
 }
