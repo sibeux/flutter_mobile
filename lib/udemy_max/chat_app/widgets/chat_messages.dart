@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/udemy_max/chat_app/widgets/message_bubbles.dart';
 
 class ChatMessages extends StatelessWidget {
   const ChatMessages({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authUSer = FirebaseAuth.instance.currentUser!;
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('chat')
@@ -43,14 +47,30 @@ class ChatMessages extends StatelessWidget {
           reverse: true,
           itemCount: loadedMessage.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  loadedMessage[index]['userImage'],
-                ),
-              ),
-              title: Text(loadedMessage[index]['text']),
-            );
+            final chatMessage = loadedMessage[index].data();
+            final nextChatMessage = index + 1 < loadedMessage.length
+                ? loadedMessage[index + 1].data()
+                : null;
+
+            final currentMessageUserId = chatMessage['userId'];
+            final nextMessageUserId =
+                nextChatMessage != null ? nextChatMessage['userId'] : null;
+            final nextUserIsSameAsCurrentUser =
+                currentMessageUserId == nextMessageUserId;
+
+            if (nextUserIsSameAsCurrentUser) {
+              return MessageBubble.next(
+                message: chatMessage['text'],
+                isMe: authUSer.uid == currentMessageUserId,
+              );
+            } else {
+              return MessageBubble.first(
+                userImage: chatMessage['userImage'],
+                username: chatMessage['username'],
+                message: chatMessage['text'],
+                isMe: authUSer.uid == currentMessageUserId,
+              );
+            }
           },
         );
       },
