@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,14 @@ class _AuthScreenState extends State<AuthScreen> {
 
         await storageRef.putFile(_userImageFile!);
         final imageUrl = await storageRef.getDownloadURL();
-        
+
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredentials.user!.uid)
+            .set({
+          'email': _enteredEmail,
+          'image_url': imageUrl,
+        });
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
@@ -152,7 +160,8 @@ class _AuthScreenState extends State<AuthScreen> {
                             },
                           ),
                           const SizedBox(height: 12),
-                          if (_isAuthenticating) const CircularProgressIndicator(),
+                          if (_isAuthenticating)
+                            const CircularProgressIndicator(),
                           if (!_isAuthenticating)
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
