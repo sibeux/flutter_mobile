@@ -20,6 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   var _enteredEmail = '';
   var _enteredPassword = '';
+  var _enteredUsername = '';
   File? _userImageFile;
   var _isAuthenticating = false;
 
@@ -64,10 +65,11 @@ class _AuthScreenState extends State<AuthScreen> {
         await storageRef.putFile(_userImageFile!);
         final imageUrl = await storageRef.getDownloadURL();
 
-        FirebaseFirestore.instance
+        await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredentials.user!.uid)
             .set({
+          'username': _enteredUsername,
           'email': _enteredEmail,
           'image_url': imageUrl,
         });
@@ -144,6 +146,24 @@ class _AuthScreenState extends State<AuthScreen> {
                               _enteredEmail = newValue!;
                             },
                           ),
+                          if (!_isLogin)
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Username',
+                              ),
+                              enableSuggestions: false,
+                              onSaved: (newValue) {
+                                _enteredUsername = newValue!;
+                              },
+                              validator: ((value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value.trim().length < 4) {
+                                  return 'Please enter a valid username.';
+                                }
+                                return null;
+                              }),
+                            ),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Password',
