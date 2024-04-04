@@ -40,7 +40,7 @@ void main(List<String> args) async {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
-    runApp(const MainChatApp());
-    // runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    // runApp(const MainChatApp());
+    runApp(const ProviderScope(child: MainMusicPlayerApp()));
   });
 }
