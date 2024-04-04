@@ -2,22 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:page_transition/page_transition.dart';
 
-class MusicScreen extends StatefulWidget {
+class MusicScreen extends ConsumerStatefulWidget {
   const MusicScreen({super.key});
 
   @override
-  State<MusicScreen> createState() => _MusicScreenState();
+  ConsumerState<MusicScreen> createState() => _MusicScreenState();
 }
 
-class _MusicScreenState extends State<MusicScreen> {
+class _MusicScreenState extends ConsumerState<MusicScreen> {
   String? _error;
   var isLoading = true;
   List<Music> _musicItems = [];
@@ -115,6 +117,8 @@ class _MusicScreenState extends State<MusicScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final indexPlayMusic = ref.watch(musikDimainkanProvider);
+
     Widget content = const Center(
       child: Text('No music yet! Add some!'),
     );
@@ -137,18 +141,34 @@ class _MusicScreenState extends State<MusicScreen> {
                 numberMusic: index + 1,
                 music: _musicItems[index],
               ),
-              onTap: () => Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  duration: const Duration(milliseconds: 300),
-                  reverseDuration: const Duration(milliseconds: 300),
-                  child: MusicDetailScreen(
-                    music: _musicItems[index],
+              onTap: () {
+
+                if (indexPlayMusic == "" ||
+                    indexPlayMusic != _musicItems[index].id) {
+                  ref
+                      .read(musikDimainkanProvider.notifier)
+                      .mainkanMusik(_musicItems[index].id);
+
+                  ref.read(playMusicProvider.notifier).onPlayMusic(
+                        Icons.pause_circle_filled,
+                      );
+                } else {
+                  // ...
+                }
+
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    duration: const Duration(milliseconds: 300),
+                    reverseDuration: const Duration(milliseconds: 300),
+                    child: MusicDetailScreen(
+                      music: _musicItems[index]
+                    ),
+                    childCurrent: const MusicScreen(),
                   ),
-                  childCurrent: const MusicScreen(),
-                ),
-              ),
+                );
+              },
             );
           },
         ),

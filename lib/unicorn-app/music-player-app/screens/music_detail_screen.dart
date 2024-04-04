@@ -5,6 +5,7 @@ import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MusicDetailScreen extends ConsumerStatefulWidget {
@@ -19,16 +20,18 @@ class MusicDetailScreen extends ConsumerStatefulWidget {
 class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final _playMusic = ref.watch(playMusicProvider);
+    final playMusic = ref.watch(playMusicProvider);
 
     return Stack(
       children: [
         Stack(
           children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.black,
+            Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: Container(
+                color: Colors.black,
+              ),
             ),
             SizedBox(
               width: double.infinity,
@@ -168,11 +171,25 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                 const SizedBox(
                   height: 40,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    color: Colors.white,
-                    thickness: 1,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  // child: Divider(
+                  //   color: Colors.white,
+                  //   thickness: 1,
+                  child: SliderTheme(
+                    data: const SliderThemeData(
+                      trackHeight: 1,
+                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
+                      overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+                    ),
+                    child: Slider(
+                      min: 0,
+                      max: 100,
+                      value: 12,
+                      activeColor: HexColor('#fefffe'),
+                      inactiveColor: HexColor('#726878'),
+                      onChanged: (value) {},
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -207,19 +224,19 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                       ),
                       IconButton(
                         icon: Icon(
-                          _playMusic,
+                          playMusic,
                           size: 60,
                           color: Colors.white,
                         ),
                         onPressed: () {
                           setState(() {
-                            if (_playMusic == Icons.play_circle_fill) {
+                            if (playMusic == Icons.pause_circle_filled) {
                               ref.read(playMusicProvider.notifier).onPlayMusic(
-                                    Icons.pause_circle_filled,
+                                    Icons.play_circle_fill,
                                   );
                             } else {
                               ref.read(playMusicProvider.notifier).onPlayMusic(
-                                    Icons.play_circle_fill,
+                                    Icons.pause_circle_filled,
                                   );
                             }
                           });

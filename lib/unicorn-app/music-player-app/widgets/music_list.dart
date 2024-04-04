@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class MusicList extends StatelessWidget {
+class MusicList extends ConsumerWidget {
   const MusicList({
     super.key,
-    required this.music, required this.numberMusic,
+    required this.music,
+    required this.numberMusic,
   });
 
   final Music music;
   final int numberMusic;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final musikDimainkan = ref.watch(musikDimainkanProvider);
+    String colorTitle = "#313031";
+    double marginList = 18;
+
+    if (musikDimainkan == music.id) {
+      colorTitle = '#8238be';
+      marginList = 12;
+    }
+
     return SizedBox(
       height: 70,
       width: double.infinity,
@@ -26,7 +38,9 @@ class MusicList extends StatelessWidget {
                 width: 40,
                 height: 40,
                 alignment: Alignment.center,
-                margin: const EdgeInsets.only(left: 18),
+                margin: EdgeInsets.only(
+                  left: marginList,
+                ),
                 child: Text(
                   numberMusic.toString().padLeft(2, '0'),
                   style: TextStyle(
@@ -49,7 +63,7 @@ class MusicList extends StatelessWidget {
                       capitalizeEachWord(music.title),
                       style: TextStyle(
                           fontSize: 16,
-                          color: HexColor('#313031'),
+                          color: HexColor(colorTitle),
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w500),
                     ),
