@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
 
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';

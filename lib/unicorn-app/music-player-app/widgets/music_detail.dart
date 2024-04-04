@@ -11,8 +11,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MusicDetail extends ConsumerStatefulWidget {
-  const MusicDetail(
-      {super.key, required this.music, required this.player});
+  const MusicDetail({super.key, required this.music, required this.player});
 
   final Music music;
   final AudioPlayer player;
@@ -46,20 +45,12 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   @override
   void initState() {
     super.initState();
-
-    // Start the audioPlayer as soon as the app is displayed.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await player.setSourceUrl(widget.music.url);
-      await player.resume();
-    });
-
     // Use initial values from player
     player.getDuration().then(
           (value) => setState(() {
             duration = value;
           }),
         );
-
     player.getCurrentPosition().then(
           (value) => setState(() {
             position = value;
@@ -256,7 +247,6 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                       overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
                     ),
                     child: Slider(
-                      
                       value: (position != null &&
                               duration != null &&
                               position!.inMilliseconds > 0 &&
@@ -268,7 +258,10 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                       inactiveColor: HexColor('#726878'),
                       onChanged: (value) {
                         final durasi = duration;
-                        final position = value * durasi!.inMilliseconds;
+                        if (durasi == null) {
+                          return;
+                        }
+                        final position = value * durasi.inMilliseconds;
                         player.seek(Duration(milliseconds: position.round()));
                       },
                     ),
@@ -387,8 +380,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   }
 
   void _initStreams() {
-    _durationSubscription = player.onDurationChanged.listen((duration) {
-      setState(() => duration = duration);
+    _durationSubscription = player.onDurationChanged.listen((durasi) {
+      setState(() => duration = durasi);
     });
 
     _positionSubscription = player.onPositionChanged.listen(
@@ -401,10 +394,6 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
       });
     });
 
-    _playerStateChangeSubscription =
-        player.onPlayerStateChanged.listen((state) {
-      setState(() {});
-    });
   }
 
   Future<void> _play() async {
