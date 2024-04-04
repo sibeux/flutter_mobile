@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail.dart';
+
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -142,7 +144,6 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                 music: _musicItems[index],
               ),
               onTap: () {
-
                 if (indexPlayMusic == "" ||
                     indexPlayMusic != _musicItems[index].id) {
                   ref
@@ -163,7 +164,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     duration: const Duration(milliseconds: 300),
                     reverseDuration: const Duration(milliseconds: 300),
                     child: MusicDetailScreen(
-                      music: _musicItems[index]
+                      music: _musicItems[index],
                     ),
                     childCurrent: const MusicScreen(),
                   ),

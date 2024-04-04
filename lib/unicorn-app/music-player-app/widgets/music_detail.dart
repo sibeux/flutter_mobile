@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
@@ -8,16 +10,87 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MusicDetailScreen extends ConsumerStatefulWidget {
-  const MusicDetailScreen({super.key, required this.music});
+class MusicDetail extends ConsumerStatefulWidget {
+  const MusicDetail(
+      {super.key, required this.music, required this.player});
 
   final Music music;
+  final AudioPlayer player;
 
   @override
-  ConsumerState<MusicDetailScreen> createState() => _MusicDetailScreenState();
+  ConsumerState<MusicDetail> createState() => _MusicDetailState();
 }
 
-class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
+class _MusicDetailState extends ConsumerState<MusicDetail> {
+  Duration? duration;
+  Duration? position;
+
+  String formatDuration(Duration? duration) {
+    if (duration == null) return '00:00';
+    String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
+    String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  StreamSubscription? _durationSubscription;
+  StreamSubscription? _positionSubscription;
+  StreamSubscription? _playerCompleteSubscription;
+  StreamSubscription? _playerStateChangeSubscription;
+
+  String get _durationText => formatDuration(duration);
+
+  String get _positionText => formatDuration(position);
+
+  AudioPlayer get player => widget.player;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start the audioPlayer as soon as the app is displayed.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await player.setSourceUrl(widget.music.url);
+      await player.resume();
+    });
+
+    // Use initial values from player
+    player.getDuration().then(
+          (value) => setState(() {
+            duration = value;
+          }),
+        );
+
+    player.getCurrentPosition().then(
+          (value) => setState(() {
+            position = value;
+          }),
+        );
+    _initStreams();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // Subscriptions only can be closed asynchronously,
+    // therefore events can occur after widget has been disposed.
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
+  void dispose() {
+    _durationSubscription?.cancel();
+    _positionSubscription?.cancel();
+    _playerCompleteSubscription?.cancel();
+    _playerStateChangeSubscription?.cancel();
+
+    // jika ada ini, maka audio player akan dihentikan ketika screen kembali ke screen sebelumnya
+    _stop();
+    // player.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final playMusic = ref.watch(playMusicProvider);
@@ -101,7 +174,7 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
@@ -142,7 +215,7 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -169,7 +242,7 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -183,17 +256,48 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                       overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
                     ),
                     child: Slider(
-                      min: 0,
-                      max: 100,
-                      value: 12,
+                      
+                      value: (position != null &&
+                              duration != null &&
+                              position!.inMilliseconds > 0 &&
+                              position!.inMilliseconds <
+                                  duration!.inMilliseconds)
+                          ? position!.inMilliseconds / duration!.inMilliseconds
+                          : 0.0,
                       activeColor: HexColor('#fefffe'),
                       inactiveColor: HexColor('#726878'),
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        final durasi = duration;
+                        final position = value * durasi!.inMilliseconds;
+                        player.seek(Duration(milliseconds: position.round()));
+                      },
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _positionText,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        _durationText,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -234,10 +338,12 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                               ref.read(playMusicProvider.notifier).onPlayMusic(
                                     Icons.play_circle_fill,
                                   );
+                              _pause();
                             } else {
                               ref.read(playMusicProvider.notifier).onPlayMusic(
                                     Icons.pause_circle_filled,
                                   );
+                              _play();
                             }
                           });
                         },
@@ -262,7 +368,12 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
                           size: 30,
                           color: Colors.white,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          ref.read(playMusicProvider.notifier).onPlayMusic(
+                                Icons.play_circle_fill,
+                              );
+                          _stop();
+                        },
                       ),
                     ],
                   ),
@@ -273,5 +384,41 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
         )
       ],
     );
+  }
+
+  void _initStreams() {
+    _durationSubscription = player.onDurationChanged.listen((duration) {
+      setState(() => duration = duration);
+    });
+
+    _positionSubscription = player.onPositionChanged.listen(
+      (p) => setState(() => position = p),
+    );
+
+    _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
+      setState(() {
+        position = Duration.zero;
+      });
+    });
+
+    _playerStateChangeSubscription =
+        player.onPlayerStateChanged.listen((state) {
+      setState(() {});
+    });
+  }
+
+  Future<void> _play() async {
+    await player.resume();
+  }
+
+  Future<void> _pause() async {
+    await player.pause();
+  }
+
+  Future<void> _stop() async {
+    await player.stop();
+    setState(() {
+      position = Duration.zero;
+    });
   }
 }
