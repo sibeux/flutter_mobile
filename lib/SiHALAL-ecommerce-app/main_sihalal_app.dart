@@ -15,7 +15,7 @@ final theme = ThemeData(
 );
 
 class MainSihalalApp extends StatelessWidget {
-  const MainSihalalApp({Key? key}) : super(key: key);
+  const MainSihalalApp({super.key});
 
   @override
   Widget build(BuildContext context) {

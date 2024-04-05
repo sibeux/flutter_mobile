@@ -5,4 +5,5 @@
         "comments": "#00ffc8"
     },
     "cmake.configureOnOpen": false,
+    "java.compile.nullAnalysis.mode": "automatic",
 }

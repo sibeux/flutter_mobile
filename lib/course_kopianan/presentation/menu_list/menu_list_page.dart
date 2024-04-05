@@ -40,9 +40,9 @@ class ItemCountLV extends StatelessWidget {
   final List foodGambar;
 
   const ItemCountLV({
-    Key? key,
+    super.key,
     required this.foodGambar,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
