@@ -6,7 +6,7 @@ class UIUpdatesDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('UIUpdatesDemo BUILD called');
+    // print('UIUpdatesDemo BUILD called');
     return const Padding(
       padding: EdgeInsets.all(8.0),
       child: Center(
