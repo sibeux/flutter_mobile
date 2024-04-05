@@ -29,7 +29,7 @@ class _LocationInputState extends State<LocationInput> {
 
   void _savePlace(double lat, double long) async {
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyD-j_GLs2j6os2dLQw5KZsLk6vHTwgWojI');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&key=AIzaSyD-j_GLs2j6os2dLQw5KZsLk6vHTwgWojI');
     final response = await http.get(url);
     final responseData = json.decode(response.body);
     final address = responseData['results'][0]['formatted_address'];

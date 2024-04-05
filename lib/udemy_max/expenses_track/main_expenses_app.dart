@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/widgets/expenses.dart';
 
 var kColorScheme =
@@ -11,7 +10,7 @@ var kColorSchemeDark = ColorScheme.fromSeed(
 );
 
 class MainExpensesApp extends StatelessWidget {
-  const MainExpensesApp({Key? key}) : super(key: key);
+  const MainExpensesApp({super.key});
 
   @override
   Widget build(BuildContext context) {

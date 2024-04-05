@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/udemy_max/expenses_track/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({Key? key, required this.addExpense}) : super(key: key);
+  const NewExpense({super.key, required this.addExpense});
 
   final void Function(Expense expense) addExpense;
 

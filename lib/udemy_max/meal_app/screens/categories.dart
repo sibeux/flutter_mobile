@@ -7,9 +7,9 @@ import 'package:flutter_mobile/udemy_max/meal_app/widgets/category_grid_item.dar
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
-    Key? key,
+    super.key,
     required this.availableMeals,
-  }) : super(key: key);
+  });
 
   final List<Meal> availableMeals;
 

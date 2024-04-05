@@ -5,10 +5,10 @@ import '../../models/expense.dart';
 
 class ExpensesList extends StatelessWidget {
   const ExpensesList({
-    Key? key,
+    super.key,
     required this.expenses,
     required this.removeExpense,
-  }) : super(key: key);
+  });
 
   final List<Expense> expenses;
   final void Function(Expense expense) removeExpense;

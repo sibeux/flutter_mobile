@@ -73,9 +73,9 @@ class ItemCountLV extends StatelessWidget {
 
 class ListImageItem extends StatelessWidget {
   const ListImageItem({
-    Key? key,
+    super.key,
     required this.foodGambar,
-  }) : super(key: key);
+  });
 
   final String foodGambar;
 
@@ -94,9 +94,9 @@ class ListImageItem extends StatelessWidget {
 
 class BasicListView extends StatelessWidget {
   const BasicListView({
-    Key? key,
+    super.key,
     required this.foodGambar,
-  }) : super(key: key);
+  });
 
   final List foodGambar;
 

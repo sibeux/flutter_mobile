@@ -5,8 +5,8 @@ final randomizer = Random();
 
 class DiceRoller extends StatefulWidget {
   const DiceRoller({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {

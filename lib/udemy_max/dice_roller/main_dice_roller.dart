@@ -5,8 +5,8 @@ import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
 
 class MainDiceRollerApp extends StatelessWidget {
   const MainDiceRollerApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

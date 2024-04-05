@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class IconWithLabel extends StatelessWidget {
   const IconWithLabel({
-    Key? key,
+    super.key,
     required this.icon,
     required this.text,
     required this.colorIcon,
     required this.colortext,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String text;
@@ -24,7 +24,7 @@ class IconWithLabel extends StatelessWidget {
           size: 30,
           color: colorIcon,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(

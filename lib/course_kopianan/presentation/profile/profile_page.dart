@@ -165,10 +165,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class DataBumbu extends StatelessWidget {
   const DataBumbu({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
-  }) : super(key: key);
+  });
 
   final String title;
   final String value;
