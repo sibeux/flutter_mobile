@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class MealItemTrait extends StatelessWidget {
   const MealItemTrait({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String label;

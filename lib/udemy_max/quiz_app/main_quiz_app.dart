@@ -3,8 +3,8 @@ import 'package:flutter_mobile/udemy_max/quiz_app/quiz.dart';
 
 class MainQuizApp extends StatelessWidget {
   const MainQuizApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

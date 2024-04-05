@@ -16,8 +16,8 @@ const kInitialFilters = {
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState<TabsScreen> createState() => _TabsScreenState();

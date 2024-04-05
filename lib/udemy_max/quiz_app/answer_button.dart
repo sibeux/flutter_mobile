@@ -5,8 +5,7 @@ class AnswerButton extends StatelessWidget {
   final Function onPressed;
 
   const AnswerButton(
-      {Key? key, required this.answerText, required this.onPressed})
-      : super(key: key);
+      {super.key, required this.answerText, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

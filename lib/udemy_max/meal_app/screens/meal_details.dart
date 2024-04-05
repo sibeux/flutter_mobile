@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   const MealDetailsScreen({
-    Key? key,
+    super.key,
     required this.meal,
-  }) : super(key: key);
+  });
 
   final Meal meal;
 

@@ -5,10 +5,10 @@ import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
   const MealItem({
-    Key? key,
+    super.key,
     required this.meal,
     required this.onSelectMeal,
-  }) : super(key: key);
+  });
 
   final Meal meal;
   final void Function(BuildContext context, Meal meal) onSelectMeal;

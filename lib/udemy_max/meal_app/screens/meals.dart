@@ -5,10 +5,10 @@ import 'package:flutter_mobile/udemy_max/meal_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
-    Key? key,
+    super.key,
     this.title,
     required this.meals,
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Meal> meals;
