@@ -3,10 +3,10 @@ import 'package:flutter_mobile/udemy_max/meal_app/models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({
-    Key? key,
+    super.key,
     required this.category,
     this.onSelectCategory,
-  }) : super(key: key);
+  });
 
   final Category category;
   final void Function()? onSelectCategory;
