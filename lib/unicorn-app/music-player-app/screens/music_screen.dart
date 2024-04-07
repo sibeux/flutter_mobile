@@ -158,9 +158,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index]);
 
-                  // player.stop();
-
-                  print('Play Music: ${_musicItems[index].title}');
+                  ref.read(isPlayingProvider.notifier).onPlayMusic(true);
 
                   playMusic(_musicItems[index].url);
                 }
@@ -324,6 +322,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
     final lagu = _musicItems[index];
 
     ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
+
+    ref.read(isPlayingProvider.notifier).onPlayMusic(true);
 
     playMusic(lagu.url);
   }

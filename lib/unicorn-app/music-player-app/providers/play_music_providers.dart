@@ -38,3 +38,16 @@ final musikDimainkanProvider =
     StateNotifierProvider<MusikDimainkanNotifier, Music>((ref) {
   return MusikDimainkanNotifier();
 });
+
+// boolean isPlaying
+class IsPlayingNotifier extends StateNotifier<bool> {
+  IsPlayingNotifier() : super(false);
+
+  void onPlayMusic(bool isPlaying) {
+    state = isPlaying;
+  }
+}
+
+final isPlayingProvider = StateNotifierProvider<IsPlayingNotifier, bool>((ref) {
+  return IsPlayingNotifier();
+});

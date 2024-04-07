@@ -105,6 +105,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   @override
   Widget build(BuildContext context) {
     final currentMusic = ref.watch(musikDimainkanProvider);
+    final isPlaying = ref.watch(isPlayingProvider);
 
     return Stack(
       children: [
@@ -341,7 +342,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                       ),
                       IconButton(
                         icon: Icon(
-                          _isPlaying
+                          isPlaying
                               ? Icons.pause_circle_filled
                               : Icons.play_circle_fill,
                           size: 60,
@@ -349,7 +350,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _isPlaying ? _pause() : _play();
+                            isPlaying ? _pause() : _play();
                           });
                         },
                       ),
@@ -398,8 +399,17 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     );
 
     _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
-      _playerState = PlayerState.stopped;
-      // _next();
+      player.getDuration().then(
+            (value) => setState(() {
+              duration = value;
+            }),
+          );
+
+      player.getCurrentPosition().then(
+            (value) => setState(() {
+              position = value;
+            }),
+          );
     });
 
     _playerStateChangeSubscription =
@@ -416,6 +426,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     lagu = widget.listMusic[index];
 
     ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
+
+    ref.read(isPlayingProvider.notifier).onPlayMusic(true);
 
     setLinkMusic(lagu.url);
 
@@ -439,11 +451,15 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   Future<void> _play() async {
     await player.resume();
     setState(() => _playerState = PlayerState.playing);
+    ref.read(isPlayingProvider.notifier).onPlayMusic(true);
   }
 
   Future<void> _pause() async {
     await player.pause();
-    setState(() => _playerState = PlayerState.paused);
+    setState(() {
+      _playerState = PlayerState.paused;
+      ref.read(isPlayingProvider.notifier).onPlayMusic(false);
+    });
   }
 
   Future<void> _stop() async {
@@ -451,6 +467,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     setState(() {
       _playerState = PlayerState.stopped;
       position = Duration.zero;
+      ref.read(isPlayingProvider.notifier).onPlayMusic(false);
     });
   }
 
