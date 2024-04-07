@@ -153,8 +153,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                 music: _musicItems[index],
               ),
               onTap: () {
-                if (indexPlayMusic == "" ||
-                    indexPlayMusic != _musicItems[index].id) {
+                if (indexPlayMusic.id == "" ||
+                    indexPlayMusic.id != _musicItems[index].id) {
                   ref
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index]);
@@ -297,7 +297,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
           ),
         ),
         if (ref.watch(musikDimainkanProvider).id.isNotEmpty)
-          Container(
+          GestureDetector(
+            child: Container(
               width: double.infinity,
               height: 60,
               color: Colors.black,
@@ -309,7 +310,24 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     fontSize: 20,
                   ),
                 ),
-              ))
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: const Duration(milliseconds: 300),
+                  reverseDuration: const Duration(milliseconds: 300),
+                  child: MusicDetailScreen(
+                    audioPlayer: player,
+                    listMusic: _musicItems,
+                  ),
+                  childCurrent: const MusicScreen(),
+                ),
+              );
+            },
+          )
       ]),
     );
   }
