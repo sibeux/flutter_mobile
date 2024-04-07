@@ -5,11 +5,16 @@ import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_detail
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MusicDetailScreen extends ConsumerStatefulWidget {
-  const MusicDetailScreen(
-      {super.key, required this.music, required this.audioPlayer});
+  const MusicDetailScreen({
+    super.key,
+    required this.music,
+    required this.audioPlayer,
+    required this.listMusic,
+  });
 
   final Music music;
   final AudioPlayer audioPlayer;
+  final List<Music> listMusic;
 
   @override
   ConsumerState<MusicDetailScreen> createState() => _MusicDetailScreenState();
@@ -21,11 +26,11 @@ class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: MusicDetail(
         currentMusic: music,
         player: player,
+        listMusic: widget.listMusic,
       ),
     );
   }

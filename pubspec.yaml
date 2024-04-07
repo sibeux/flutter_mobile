@@ -63,6 +63,9 @@ dependencies:
   cloud_firestore: ^4.15.8
   firebase_messaging: ^14.7.19
   palette_generator: ^0.3.3+3
+  # just_audio: ^0.9.37
+  audio_session: ^0.1.19
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

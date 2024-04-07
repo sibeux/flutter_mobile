@@ -5,7 +5,6 @@ import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-app/providers/music_provider.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +16,12 @@ class MusicDetail extends ConsumerStatefulWidget {
     super.key,
     required this.currentMusic,
     required this.player,
+    required this.listMusic,
   });
 
   final Music currentMusic;
   final AudioPlayer player;
+  final List<Music> listMusic;
 
   @override
   ConsumerState<MusicDetail> createState() => _MusicDetailState();
@@ -61,8 +62,6 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   void initState() {
     super.initState();
 
-    setLinkMusic(lagu.url);
-
     // Use initial values from player
     player.getDuration().then(
           (value) => setState(() {
@@ -77,11 +76,9 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     _initStreams();
   }
 
-  void setLinkMusic(String url) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await player.setSourceUrl(url);
-      await player.resume();
-    });
+  void setLinkMusic(String url) async {
+    await player.setSourceUrl(url);
+    await player.resume();
   }
 
   @override
@@ -373,9 +370,6 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          ref.read(playMusicProvider.notifier).onPlayMusic(
-                                Icons.play_circle_fill,
-                              );
                           _stop();
                         },
                       ),
@@ -412,17 +406,11 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   }
 
   void playLaguBaru() {
-    _playerState = PlayerState.stopped;
+    final int index = random(0, widget.listMusic.length);
 
-    position = Duration.zero;
-
-    final int index = random(0, ref.watch(listMusikProvider).length);
-
-    lagu = ref.watch(listMusikProvider)[index];
+    lagu = widget.listMusic[index];
 
     ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu.id);
-
-    ref.read(playMusicProvider.notifier).onPlayMusic(Icons.pause_circle_filled);
 
     setLinkMusic(lagu.url);
 
@@ -437,13 +425,9 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
             position = value;
           }),
         );
-
-    // _initStreams();
   }
 
-  Future<void> _next() async {
-    await player.stop();
-
+  void _next() {
     playLaguBaru();
   }
 

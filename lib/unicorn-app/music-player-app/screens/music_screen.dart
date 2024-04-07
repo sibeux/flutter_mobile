@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
-import 'package:flutter_mobile/unicorn-app/music-player-app/providers/music_provider.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
 
@@ -30,6 +29,11 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
   final int increment = 10;
   late AudioPlayer player = AudioPlayer();
 
+  void playMusic(String url) async {
+    await player.setSourceUrl(url);
+    await player.resume();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +44,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
     player = AudioPlayer();
 
     // Set the release mode to release the source after playback has completed.
-    player.setReleaseMode(ReleaseMode.release);
+    player.setReleaseMode(ReleaseMode.stop);
   }
 
   Future _loadMoreVertical() async {
@@ -51,22 +55,6 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
     // Add in an artificial delay
     await Future.delayed(
       const Duration(seconds: 2),
-    );
-
-    _musicItems.addAll(
-      List.generate(
-        increment,
-        (index) => Music(
-          id: _musicItems[_musicItems.length + index].id,
-          title: _musicItems[_musicItems.length + index].title,
-          artist: _musicItems[_musicItems.length + index].artist,
-          album: _musicItems[_musicItems.length + index].album,
-          cover: _musicItems[_musicItems.length + index].cover,
-          url: _musicItems[_musicItems.length + index].url,
-          duration: _musicItems[_musicItems.length + index].duration,
-          isFavorite: _musicItems[_musicItems.length + index].isFavorite,
-        ),
-      ),
     );
 
     setState(() {
@@ -158,14 +146,12 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index].id);
 
-                  ref
-                      .read(playMusicProvider.notifier)
-                      .onPlayMusic(Icons.pause_circle_filled);
+                  // player.stop();
 
-                  player.stop();
+                  print('Play Music: ${_musicItems[index].title}');
+
+                  playMusic(_musicItems[index].url);
                 }
-
-                ref.read(listMusikProvider.notifier).addMusic(_musicItems);
 
                 Navigator.push(
                   context,
@@ -176,6 +162,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     child: MusicDetailScreen(
                       audioPlayer: player,
                       music: _musicItems[index],
+                      listMusic: _musicItems,
                     ),
                     childCurrent: const MusicScreen(),
                   ),

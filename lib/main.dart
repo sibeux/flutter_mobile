@@ -19,13 +19,16 @@ import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen
 import 'package:flutter_mobile/unicorn-app/music-player-app/main_music_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+
+// buat materi firebase
+// import 'firebase_options.dart';
 
 void main(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // buat materi firebase
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   // lock orientation to portrait
   WidgetsFlutterBinding.ensureInitialized();
