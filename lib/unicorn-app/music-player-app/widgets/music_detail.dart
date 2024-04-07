@@ -14,12 +14,10 @@ import 'package:shimmer/shimmer.dart';
 class MusicDetail extends ConsumerStatefulWidget {
   const MusicDetail({
     super.key,
-    required this.currentMusic,
     required this.player,
     required this.listMusic,
   });
 
-  final Music currentMusic;
   final AudioPlayer player;
   final List<Music> listMusic;
 
@@ -47,12 +45,6 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   String get _positionText => formatDuration(position);
 
   AudioPlayer get player => widget.player;
-
-  Music music(Music music) {
-    return widget.currentMusic;
-  }
-
-  late Music lagu = music(widget.currentMusic);
 
   @override
   void initState() {
@@ -409,7 +401,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   void playLaguBaru() {
     final int index = random(0, widget.listMusic.length);
 
-    lagu = widget.listMusic[index];
+    final lagu = widget.listMusic[index];
 
     ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
 

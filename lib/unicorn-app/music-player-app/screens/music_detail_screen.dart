@@ -7,12 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MusicDetailScreen extends ConsumerStatefulWidget {
   const MusicDetailScreen({
     super.key,
-    required this.music,
     required this.audioPlayer,
     required this.listMusic,
   });
 
-  final Music music;
   final AudioPlayer audioPlayer;
   final List<Music> listMusic;
 
@@ -21,14 +19,12 @@ class MusicDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
-  Music get music => widget.music;
   AudioPlayer get player => widget.audioPlayer;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: MusicDetail(
-        currentMusic: music,
         player: player,
         listMusic: widget.listMusic,
       ),

@@ -171,7 +171,6 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     reverseDuration: const Duration(milliseconds: 300),
                     child: MusicDetailScreen(
                       audioPlayer: player,
-                      music: _musicItems[index],
                       listMusic: _musicItems,
                     ),
                     childCurrent: const MusicScreen(),
