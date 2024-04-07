@@ -104,6 +104,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final currentMusic = ref.watch(musikDimainkanProvider);
+
     return Stack(
       children: [
         Stack(
@@ -127,7 +129,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                     sigmaX: 35,
                   ),
                   child: Image.network(
-                    lagu.cover,
+                    currentMusic.cover,
                     scale: 5,
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.low,
@@ -192,7 +194,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      lagu.cover,
+                      currentMusic.cover,
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.low,
                       loadingBuilder: (BuildContext context, Widget child,
@@ -229,7 +231,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    capitalizeEachWord(lagu.title),
+                    capitalizeEachWord(currentMusic.title),
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 25,
@@ -242,7 +244,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                   height: 10,
                 ),
                 Text(
-                  capitalizeEachWord(lagu.artist),
+                  capitalizeEachWord(currentMusic.artist),
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 20,
