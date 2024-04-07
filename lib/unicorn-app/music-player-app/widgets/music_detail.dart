@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/providers/music_provider.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,9 +13,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MusicDetail extends ConsumerStatefulWidget {
-  const MusicDetail({super.key, required this.music, required this.player});
+  const MusicDetail({
+    super.key,
+    required this.currentMusic,
+    required this.player,
+  });
 
-  final Music music;
+  final Music currentMusic;
   final AudioPlayer player;
 
   @override
@@ -21,11 +27,12 @@ class MusicDetail extends ConsumerStatefulWidget {
 }
 
 class _MusicDetailState extends ConsumerState<MusicDetail> {
+  PlayerState? _playerState;
   Duration? duration;
   Duration? position;
 
   String formatDuration(Duration? duration) {
-    if (duration == null) return '00:00';
+    if (duration == null) return 'buffering';
     String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
     String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
     return '$minutes:$seconds';
@@ -36,15 +43,26 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   StreamSubscription? _playerCompleteSubscription;
   StreamSubscription? _playerStateChangeSubscription;
 
+  bool get _isPlaying => _playerState == PlayerState.playing;
+
   String get _durationText => formatDuration(duration);
 
   String get _positionText => formatDuration(position);
 
   AudioPlayer get player => widget.player;
 
+  Music music(Music music) {
+    return widget.currentMusic;
+  }
+
+  late Music lagu = music(widget.currentMusic);
+
   @override
   void initState() {
     super.initState();
+
+    setLinkMusic(lagu.url);
+
     // Use initial values from player
     player.getDuration().then(
           (value) => setState(() {
@@ -57,6 +75,13 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
           }),
         );
     _initStreams();
+  }
+
+  void setLinkMusic(String url) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await player.setSourceUrl(url);
+      await player.resume();
+    });
   }
 
   @override
@@ -75,17 +100,11 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     _playerCompleteSubscription?.cancel();
     _playerStateChangeSubscription?.cancel();
 
-    // jika ada ini, maka audio player akan dihentikan ketika screen kembali ke screen sebelumnya
-    _stop();
-    // player.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final playMusic = ref.watch(playMusicProvider);
-
     return Stack(
       children: [
         Stack(
@@ -109,7 +128,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                     sigmaX: 35,
                   ),
                   child: Image.network(
-                    widget.music.cover,
+                    lagu.cover,
                     scale: 5,
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.low,
@@ -174,7 +193,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      widget.music.cover,
+                      lagu.cover,
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.low,
                       loadingBuilder: (BuildContext context, Widget child,
@@ -211,7 +230,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    capitalizeEachWord(widget.music.title),
+                    capitalizeEachWord(lagu.title),
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 25,
@@ -224,7 +243,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                   height: 10,
                 ),
                 Text(
-                  capitalizeEachWord(widget.music.artist),
+                  capitalizeEachWord(lagu.artist),
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 20,
@@ -321,23 +340,15 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                       ),
                       IconButton(
                         icon: Icon(
-                          playMusic,
+                          _isPlaying
+                              ? Icons.pause_circle_filled
+                              : Icons.play_circle_fill,
                           size: 60,
                           color: Colors.white,
                         ),
                         onPressed: () {
                           setState(() {
-                            if (playMusic == Icons.pause_circle_filled) {
-                              ref.read(playMusicProvider.notifier).onPlayMusic(
-                                    Icons.play_circle_fill,
-                                  );
-                              _pause();
-                            } else {
-                              ref.read(playMusicProvider.notifier).onPlayMusic(
-                                    Icons.pause_circle_filled,
-                                  );
-                              _play();
-                            }
+                            _isPlaying ? _pause() : _play();
                           });
                         },
                       ),
@@ -350,7 +361,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                           size: 30,
                           color: Colors.white,
                         ),
-                        onPressed: () {},
+                        onPressed: _next,
                       ),
                       const SizedBox(
                         width: 10,
@@ -380,8 +391,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   }
 
   void _initStreams() {
-    _durationSubscription = player.onDurationChanged.listen((durasi) {
-      setState(() => duration = durasi);
+    _durationSubscription = player.onDurationChanged.listen((p) {
+      setState(() => duration = p);
     });
 
     _positionSubscription = player.onPositionChanged.listen(
@@ -389,25 +400,72 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     );
 
     _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
-      setState(() {
-        position = Duration.zero;
-      });
+      _next();
     });
 
+    _playerStateChangeSubscription =
+        player.onPlayerStateChanged.listen((state) {
+      setState(() {
+        _playerState = state;
+      });
+    });
+  }
+
+  void playLaguBaru() {
+    _playerState = PlayerState.stopped;
+
+    position = Duration.zero;
+
+    final int index = random(0, ref.watch(listMusikProvider).length);
+
+    lagu = ref.watch(listMusikProvider)[index];
+
+    ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu.id);
+
+    ref.read(playMusicProvider.notifier).onPlayMusic(Icons.pause_circle_filled);
+
+    setLinkMusic(lagu.url);
+
+    player.getDuration().then(
+          (value) => setState(() {
+            duration = value;
+          }),
+        );
+
+    player.getCurrentPosition().then(
+          (value) => setState(() {
+            position = value;
+          }),
+        );
+
+    // _initStreams();
+  }
+
+  Future<void> _next() async {
+    await player.stop();
+
+    playLaguBaru();
   }
 
   Future<void> _play() async {
     await player.resume();
+    setState(() => _playerState = PlayerState.playing);
   }
 
   Future<void> _pause() async {
     await player.pause();
+    setState(() => _playerState = PlayerState.paused);
   }
 
   Future<void> _stop() async {
     await player.stop();
     setState(() {
+      _playerState = PlayerState.stopped;
       position = Duration.zero;
     });
+  }
+
+  int random(int min, int max) {
+    return min + Random().nextInt(max - min);
   }
 }

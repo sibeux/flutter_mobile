@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/providers/music_provider.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
 
@@ -27,12 +28,19 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
   List<Music> _musicItems = [];
   bool isLoadingVertical = false;
   final int increment = 10;
+  late AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     getMusicData();
     _loadMoreVertical();
+
+    // Create the audio player.
+    player = AudioPlayer();
+
+    // Set the release mode to release the source after playback has completed.
+    player.setReleaseMode(ReleaseMode.release);
   }
 
   Future _loadMoreVertical() async {
@@ -150,12 +158,14 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index].id);
 
-                  ref.read(playMusicProvider.notifier).onPlayMusic(
-                        Icons.pause_circle_filled,
-                      );
-                } else {
-                  // ...
+                  ref
+                      .read(playMusicProvider.notifier)
+                      .onPlayMusic(Icons.pause_circle_filled);
+
+                  player.stop();
                 }
+
+                ref.read(listMusikProvider.notifier).addMusic(_musicItems);
 
                 Navigator.push(
                   context,
@@ -164,6 +174,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     duration: const Duration(milliseconds: 300),
                     reverseDuration: const Duration(milliseconds: 300),
                     child: MusicDetailScreen(
+                      audioPlayer: player,
                       music: _musicItems[index],
                     ),
                     childCurrent: const MusicScreen(),

@@ -2,50 +2,31 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_detail.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MusicDetailScreen extends StatefulWidget {
-  const MusicDetailScreen({super.key, required this.music});
+class MusicDetailScreen extends ConsumerStatefulWidget {
+  const MusicDetailScreen(
+      {super.key, required this.music, required this.audioPlayer});
 
   final Music music;
+  final AudioPlayer audioPlayer;
 
   @override
-  State<MusicDetailScreen> createState() => _MusicDetailScreenState();
+  ConsumerState<MusicDetailScreen> createState() => _MusicDetailScreenState();
 }
 
-class _MusicDetailScreenState extends State<MusicDetailScreen> {
-  late AudioPlayer audioPlayer = AudioPlayer();
-
+class _MusicDetailScreenState extends ConsumerState<MusicDetailScreen> {
   Music get music => widget.music;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Create the audio player.
-    audioPlayer = AudioPlayer();
-
-    // Set the release mode to keep the source after playback has completed.
-    audioPlayer.setReleaseMode(ReleaseMode.stop);
-
-    // Start the audioPlayer as soon as the app is displayed.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await audioPlayer.setSourceUrl(music.url);
-      await audioPlayer.resume();
-    });
-  }
-
-  @override
-  void dispose() {
-    // Release all sources and dispose the player.
-    audioPlayer.dispose();
-
-    super.dispose();
-  }
+  AudioPlayer get player => widget.audioPlayer;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: MusicDetail(music: music, player: audioPlayer),
+      body: MusicDetail(
+        currentMusic: music,
+        player: player,
+      ),
     );
   }
 }
