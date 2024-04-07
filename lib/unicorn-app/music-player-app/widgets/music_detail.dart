@@ -62,6 +62,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
   void initState() {
     super.initState();
 
+    print(_isPlaying);
+
     // Use initial values from player
     player.getDuration().then(
           (value) => setState(() {
@@ -394,7 +396,8 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
     );
 
     _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
-      _next();
+      _playerState = PlayerState.stopped;
+      // _next();
     });
 
     _playerStateChangeSubscription =
@@ -410,7 +413,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
 
     lagu = widget.listMusic[index];
 
-    ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu.id);
+    ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
 
     setLinkMusic(lagu.url);
 

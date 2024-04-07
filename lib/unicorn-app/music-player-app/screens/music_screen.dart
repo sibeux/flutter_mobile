@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
   final int increment = 10;
   late AudioPlayer player = AudioPlayer();
 
+  StreamSubscription? _playerCompleteSubscription;
+
   void playMusic(String url) async {
     await player.setSourceUrl(url);
     await player.resume();
@@ -45,6 +49,14 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
 
     // Set the release mode to release the source after playback has completed.
     player.setReleaseMode(ReleaseMode.stop);
+
+    _initStreams();
+  }
+
+  @override
+  void dispose() {
+    _playerCompleteSubscription?.cancel();
+    super.dispose();
   }
 
   Future _loadMoreVertical() async {
@@ -144,7 +156,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                     indexPlayMusic != _musicItems[index].id) {
                   ref
                       .read(musikDimainkanProvider.notifier)
-                      .mainkanMusik(_musicItems[index].id);
+                      .mainkanMusik(_musicItems[index]);
 
                   // player.stop();
 
@@ -258,20 +270,35 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                   ),
                 ),
                 Expanded(
-                    child: Container(
-                  color: HexColor('#fefffe'),
-                  padding: const EdgeInsets.only(top: 8),
-                  width: double.infinity,
-                  child: content,
-                  // FutureBuilder(
-                  //     future: getMusicData(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasError) {
-                  //         print(snapshot.error);
-                  //       }
-                  //       return content;
-                  //     }),
-                ))
+                  child: Container(
+                    color: HexColor('#fefffe'),
+                    padding: const EdgeInsets.only(top: 8),
+                    width: double.infinity,
+                    child: content,
+                    // FutureBuilder(
+                    //     future: getMusicData(),
+                    //     builder: (context, snapshot) {
+                    //       if (snapshot.hasError) {
+                    //         print(snapshot.error);
+                    //       }
+                    //       return content;
+                    //     }),
+                  ),
+                ),
+                if (ref.watch(musikDimainkanProvider).id.isNotEmpty)
+                  Container(
+                      width: double.infinity,
+                      height: 70,
+                      color: Colors.black,
+                      child: Center(
+                        child: Text(
+                          ref.watch(musikDimainkanProvider).title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ))
               ],
             ),
           ),
@@ -283,5 +310,25 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
         ],
       ),
     );
+  }
+
+  void _initStreams() {
+    _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
+      playLaguBaru();
+    });
+  }
+
+  void playLaguBaru() {
+    final int index = random(0, _musicItems.length);
+
+    final lagu = _musicItems[index];
+
+    ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
+
+    playMusic(lagu.url);
+  }
+
+  int random(int min, int max) {
+    return min + Random().nextInt(max - min);
   }
 }

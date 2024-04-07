@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Untuk mengubah icon play/pause
@@ -15,17 +16,25 @@ final playMusicProvider =
   return PlayMusicNotifier();
 });
 
-
 // Untuk mengetahui musik mana yang sedang dimainkan
-class MusikDimainkanNotifier extends StateNotifier<String> {
-  MusikDimainkanNotifier() : super("");
+class MusikDimainkanNotifier extends StateNotifier<Music> {
+  MusikDimainkanNotifier()
+      : super(const Music(
+            id: "",
+            title: "",
+            artist: "",
+            album: "",
+            cover: "",
+            url: "",
+            duration: "",
+            isFavorite: ""));
 
-  void mainkanMusik(String musicId) {
-    state = musicId;
+  void mainkanMusik(Music music) {
+    state = music;
   }
 }
 
 final musikDimainkanProvider =
-    StateNotifierProvider<MusikDimainkanNotifier, String>((ref) {
+    StateNotifierProvider<MusikDimainkanNotifier, Music>((ref) {
   return MusikDimainkanNotifier();
 });

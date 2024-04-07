@@ -21,7 +21,7 @@ class MusicList extends ConsumerWidget {
     String colorTitle = "#313031";
     double marginList = 18;
 
-    if (musikDimainkan == music.id) {
+    if (musikDimainkan.id == music.id) {
       colorTitle = '#8238be';
       marginList = 12;
     }
