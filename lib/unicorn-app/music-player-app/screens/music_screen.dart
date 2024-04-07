@@ -4,10 +4,11 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/components/dominant_color.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
+import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/capitalize.dart';
 
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/music_list.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/widgets/shimmer_music_list.dart';
@@ -31,12 +32,19 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
   bool isLoadingVertical = false;
   final int increment = 10;
   late AudioPlayer player = AudioPlayer();
+  Color dominantColor = Colors.transparent;
 
   StreamSubscription? _playerCompleteSubscription;
 
   void playMusic(String url) async {
     await player.setSourceUrl(url);
     await player.resume();
+  }
+
+  void setColor(Color color){
+    setState(() {
+      dominantColor = color;
+    });
   }
 
   @override
@@ -155,6 +163,11 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
               onTap: () {
                 if (indexPlayMusic.id == "" ||
                     indexPlayMusic.id != _musicItems[index].id) {
+
+                  getDominantColor(_musicItems[index].cover).then((color) {
+                    setColor(color!);
+                  });
+                  
                   ref
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index]);
@@ -163,6 +176,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
 
                   playMusic(_musicItems[index].url);
                 }
+                
+                
 
                 Navigator.push(
                   context,
@@ -298,17 +313,99 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
         ),
         if (ref.watch(musikDimainkanProvider).id.isNotEmpty)
           GestureDetector(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
-              height: 60,
-              color: Colors.black,
-              child: Center(
-                child: Text(
-                  ref.watch(musikDimainkanProvider).title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomStart,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 25,
+                          height: 45,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white,
+                                Colors.grey,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            height: 45,
+                            decoration:  BoxDecoration(
+                              color: dominantColor,
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(100),
+                                  bottomRight: Radius.circular(100)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 35),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    capitalizeEachWord(ref
+                                        .watch(musikDimainkanProvider)
+                                        .title),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    capitalizeEachWord(ref
+                                        .watch(musikDimainkanProvider)
+                                        .artist),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                ref.watch(musikDimainkanProvider).cover,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -346,6 +443,10 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
     ref.read(musikDimainkanProvider.notifier).mainkanMusik(lagu);
 
     ref.read(isPlayingProvider.notifier).onPlayMusic(true);
+
+    getDominantColor(lagu.cover).then((color) {
+      setColor(color!);
+    });
 
     playMusic(lagu.url);
   }
