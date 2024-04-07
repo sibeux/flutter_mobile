@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/providers/play_music_providers.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/screens/music_detail_screen.dart';
@@ -211,101 +212,105 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
           ),
         ),
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Container(
-                  color: HexColor('#fefffe'),
-                  width: double.infinity,
-                  height: 50,
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        margin: const EdgeInsets.only(left: 18),
-                        width: 180,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: HexColor('#ac8bc9'),
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.play_circle_fill,
-                              color: HexColor('#fefffe'),
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Shuffle Playback',
-                              style: TextStyle(
-                                color: HexColor('#fefffe'),
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Expanded(
-                        child: SizedBox(),
-                      ),
-                      IconButton(
-                        highlightColor: Colors.black.withOpacity(0.02),
-                        icon: Icon(
-                          Icons.list_rounded,
-                          size: 30,
-                          color: HexColor('#8d8c8c'),
-                        ),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: HexColor('#fefffe'),
-                    padding: const EdgeInsets.only(top: 8),
-                    width: double.infinity,
-                    child: content,
-                    // FutureBuilder(
-                    //     future: getMusicData(),
-                    //     builder: (context, snapshot) {
-                    //       if (snapshot.hasError) {
-                    //         print(snapshot.error);
-                    //       }
-                    //       return content;
-                    //     }),
-                  ),
-                ),
-                if (ref.watch(musikDimainkanProvider).id.isNotEmpty)
-                  Container(
+      body: Column(children: [
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      color: HexColor('#fefffe'),
                       width: double.infinity,
-                      height: 70,
-                      color: Colors.black,
-                      child: Center(
-                        child: Text(
-                          ref.watch(musikDimainkanProvider).title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                      height: 50,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            margin: const EdgeInsets.only(left: 18),
+                            width: 180,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: HexColor('#ac8bc9'),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.play_circle_fill,
+                                  color: HexColor('#fefffe'),
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'Shuffle Playback',
+                                  style: TextStyle(
+                                    color: HexColor('#fefffe'),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ))
-              ],
-            ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          IconButton(
+                            highlightColor: Colors.black.withOpacity(0.02),
+                            icon: Icon(
+                              Icons.list_rounded,
+                              size: 30,
+                              color: HexColor('#8d8c8c'),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: HexColor('#fefffe'),
+                        padding: const EdgeInsets.only(top: 8),
+                        width: double.infinity,
+                        child: content,
+                        // FutureBuilder(
+                        //     future: getMusicData(),
+                        //     builder: (context, snapshot) {
+                        //       if (snapshot.hasError) {
+                        //         print(snapshot.error);
+                        //       }
+                        //       return content;
+                        //     }),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.blue,
+                width: 30,
+                height: double.infinity,
+              )
+            ],
           ),
+        ),
+        if (ref.watch(musikDimainkanProvider).id.isNotEmpty)
           Container(
-            color: Colors.blue,
-            width: 30,
-            height: double.infinity,
-          )
-        ],
-      ),
+              width: double.infinity,
+              height: 60,
+              color: Colors.black,
+              child: Center(
+                child: Text(
+                  ref.watch(musikDimainkanProvider).title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ))
+      ]),
     );
   }
 
