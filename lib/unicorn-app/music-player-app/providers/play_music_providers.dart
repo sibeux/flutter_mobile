@@ -51,3 +51,17 @@ class IsPlayingNotifier extends StateNotifier<bool> {
 final isPlayingProvider = StateNotifierProvider<IsPlayingNotifier, bool>((ref) {
   return IsPlayingNotifier();
 });
+
+// array of shuffle music
+class ShuffleMusicNotifier extends StateNotifier<List<int>> {
+  ShuffleMusicNotifier() : super([]);
+
+  void onShuffleMusic(List<int> musics) {
+    state = musics;
+  }
+}
+
+final shuffleMusicProvider =
+    StateNotifierProvider<ShuffleMusicNotifier, List<int>>((ref) {
+  return ShuffleMusicNotifier();
+});

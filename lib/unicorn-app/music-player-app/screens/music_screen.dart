@@ -209,9 +209,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded),
           tooltip: 'Menu',
-          onPressed: () {
-            // handle the press
-          },
+          onPressed: () {},
         ),
         centerTitle: true,
         toolbarHeight: 60,
@@ -471,5 +469,17 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
 
   int random(int min, int max) {
     return min + Random().nextInt(max - min);
+  }
+
+  void shuffleListMusic() {
+    final List<int> listIndex = [];
+
+    for (int i = 0; i < _musicItems.length; i++) {
+      listIndex.add(i);
+    }
+
+    listIndex.shuffle();
+
+    ref.read(shuffleMusicProvider.notifier).onShuffleMusic(listIndex);
   }
 }
