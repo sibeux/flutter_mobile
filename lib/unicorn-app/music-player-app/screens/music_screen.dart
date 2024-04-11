@@ -41,7 +41,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
     await player.resume();
   }
 
-  void setColor(Color color){
+  void setColor(Color color) {
     setState(() {
       dominantColor = color;
     });
@@ -163,11 +163,10 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
               onTap: () {
                 if (indexPlayMusic.id == "" ||
                     indexPlayMusic.id != _musicItems[index].id) {
-
                   getDominantColor(_musicItems[index].cover).then((color) {
                     setColor(color!);
                   });
-                  
+
                   ref
                       .read(musikDimainkanProvider.notifier)
                       .mainkanMusik(_musicItems[index]);
@@ -176,8 +175,6 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
 
                   playMusic(_musicItems[index].url);
                 }
-                
-                
 
                 Navigator.push(
                   context,
@@ -240,33 +237,54 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                       height: 50,
                       child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            margin: const EdgeInsets.only(left: 18),
-                            width: 180,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: HexColor('#ac8bc9'),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.play_circle_fill,
-                                  color: HexColor('#fefffe'),
-                                  size: 30,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Shuffle Playback',
-                                  style: TextStyle(
-                                    color: HexColor('#fefffe'),
-                                    fontSize: 16,
+                          InkWell(
+                            onTap: () {
+                              playLaguBaru();
+
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.bottomToTop,
+                                  duration: const Duration(milliseconds: 300),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 300),
+                                  child: MusicDetailScreen(
+                                    audioPlayer: player,
+                                    listMusic: _musicItems,
                                   ),
+                                  childCurrent: const MusicScreen(),
                                 ),
-                              ],
+                              );
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.only(left: 18),
+                              width: 180,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: HexColor('#ac8bc9'),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.play_circle_fill,
+                                    color: HexColor('#fefffe'),
+                                    size: 30,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Shuffle Playback',
+                                    style: TextStyle(
+                                      color: HexColor('#fefffe'),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const Expanded(
@@ -342,7 +360,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                           child: Container(
                             width: double.infinity,
                             height: 45,
-                            decoration:  BoxDecoration(
+                            decoration: BoxDecoration(
                               color: dominantColor,
                               borderRadius: const BorderRadius.only(
                                   topRight: Radius.circular(100),
