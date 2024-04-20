@@ -26,7 +26,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 // buat materi firebase
 // import 'firebase_options.dart';
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   // buat materi firebase
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(

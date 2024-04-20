@@ -8,7 +8,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -50,6 +50,7 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+        
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and
