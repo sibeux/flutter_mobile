@@ -16,6 +16,7 @@ import 'package:flutter_mobile/udemy_max/shopping_list/shopping_list_app.dart';
 import 'package:flutter_mobile/udemy_max/todo_app/main_todo_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/main_music_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen.dart';
+import 'package:flutter_mobile/unicorn-app/just-audio-background/main_just_audio_background.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/main_music_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,6 +45,7 @@ void main(List<String> args) async {
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
     // runApp(const MainChatApp());
-    runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    // runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
   });
 }

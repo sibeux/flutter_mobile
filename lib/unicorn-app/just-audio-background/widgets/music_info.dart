@@ -20,7 +20,21 @@ class CurrentMusicInfo extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
+        Text(
+          mediaItem.album ?? '',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          mediaItem.title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
