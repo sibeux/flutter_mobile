@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobile/SiHALAL-ecommerce-app/main_sihalal_app.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_mobile/unicorn-app/just-audio-background/main_just_audio
 import 'package:flutter_mobile/unicorn-app/music-player-app/main_music_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 // buat materi firebase
 // import 'firebase_options.dart';
@@ -30,6 +32,13 @@ void main(List<String> args) async {
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
+
+  // just audio background
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
 
   // lock orientation to portrait
   WidgetsFlutterBinding.ensureInitialized();

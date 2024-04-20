@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/just-audio-background/provider/audio_state.dart';
+import 'package:flutter_mobile/unicorn-app/just-audio-background/widgets/control_buttons.dart';
 import 'package:flutter_mobile/unicorn-app/just-audio-background/widgets/music_info.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -36,7 +37,33 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
+              ControlButtons(player: audioState.player),
               const SizedBox(height: 8),
+              SizedBox(
+                height: 300,
+                child: StreamBuilder<SequenceState?>(
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final state = snapshot.data;
+                      final sequence = state?.sequence ?? [];
+                      return ListView.builder(
+                        itemCount: sequence.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(sequence[index].tag.title as String),
+                            onTap: () async {
+                              audioState.player
+                                  .seek(Duration.zero, index: index);
+                            },
+                          );
+                        },
+                      );
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                  stream: audioState.player.sequenceStateStream,
+                ),
+              )
             ],
           ),
         ));
