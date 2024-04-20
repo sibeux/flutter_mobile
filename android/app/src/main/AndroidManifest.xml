@@ -7,6 +7,9 @@
         android:label="flutter_mobile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- default android:name di activity adalah .MainActivity -->
+        <!-- android:name=".MainActivity" -->
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"

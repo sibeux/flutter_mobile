@@ -39,6 +39,18 @@ class AudioState extends ChangeNotifier {
               "https://i.scdn.co/image/ab67616d0000b2739230f7c8dfff664d6ac2ad0b"),
         ),
       ),
+      AudioSource.uri(
+        Uri.parse(
+            "https://raw.githubusercontent.com/sibeux/sibeux-contrarians-syntaxianz/main/The%20BabyStars/spotifydown.com%20-%20REMEMBER.mp3"),
+        tag: MediaItem(
+          id: '${_nextMediaId++}',
+          title: '7:3',
+          artist: 'Alisa Okehazama',
+          album: 'Jujutsu Kaisen',
+          artUri: Uri.parse(
+              "https://i.scdn.co/image/ab67616d0000b2739230f7c8dfff664d6ac2ad0b"),
+        ),
+      ),
     ],
   );
 
