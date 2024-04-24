@@ -8,10 +8,10 @@ import 'package:flutter_mobile/udemy_max/meal_app/widgets/main_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const kInitialFilters = {
-  Filter.GlutenFree: false,
-  Filter.LactoseFree: false,
-  Filter.Vegetarian: false,
-  Filter.Vegan: false,
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false,
 };
 
 class TabsScreen extends ConsumerStatefulWidget {

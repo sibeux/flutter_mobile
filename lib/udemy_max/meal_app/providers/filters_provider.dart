@@ -2,19 +2,19 @@ import 'package:flutter_mobile/udemy_max/meal_app/providers/meals_provider.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Filter {
-  GlutenFree,
-  LactoseFree,
-  Vegetarian,
-  Vegan,
+  glutenFree,
+  lactoseFree,
+  vegetarian,
+  vegan,
 }
 
 class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
   FiltersNotifier()
       : super({
-          Filter.GlutenFree: false,
-          Filter.LactoseFree: false,
-          Filter.Vegetarian: false,
-          Filter.Vegan: false,
+          Filter.glutenFree: false,
+          Filter.lactoseFree: false,
+          Filter.vegetarian: false,
+          Filter.vegan: false,
         });
 
   void setFilters(Map<Filter, bool> chosenFilters) {
@@ -40,16 +40,16 @@ final filteredMealsProvider = Provider((ref) {
 
   return meals.where(
     (meal) {
-      if (activeFilters[Filter.GlutenFree]! && !meal.isGlutenFree) {
+      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
-      if (activeFilters[Filter.LactoseFree]! && !meal.isLactoseFree) {
+      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
         return false;
       }
-      if (activeFilters[Filter.Vegetarian]! && !meal.isVegetarian) {
+      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
         return false;
       }
-      if (activeFilters[Filter.Vegan]! && !meal.isVegetarian) {
+      if (activeFilters[Filter.vegan]! && !meal.isVegetarian) {
         return false;
       }
       return true;
