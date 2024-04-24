@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
 
 class MainLazyOneApp extends StatelessWidget {
   const MainLazyOneApp({super.key});
@@ -27,6 +28,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+  // final _baseUrl =
+  //     'https://sibeux.my.id/cloud-music-player/json/music.json';
 
   int _page = 0;
 
@@ -44,6 +47,9 @@ class _HomePageState extends State<HomePage> {
         _isFirstLoadRunning == false &&
         _isLoadMoreRunning == false &&
         _controller.position.extentAfter < 300) {
+      // permasalahannya karena _controller.position.extentAfter < 300
+      // kalau pakai link music.json, maka baru akan true kalau sudah di list terakhir
+      // angkanya gede banget kalo pake music.json
       setState(() {
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
       });
@@ -58,6 +64,8 @@ class _HomePageState extends State<HomePage> {
         if (fetchedPosts.isNotEmpty) {
           setState(() {
             _posts.addAll(fetchedPosts);
+            developer.log(_page.toString());
+            developer.log(_limit.toString());
           });
         } else {
           setState(() {
@@ -86,6 +94,8 @@ class _HomePageState extends State<HomePage> {
           await http.get(Uri.parse("$_baseUrl?_page=$_page&_limit=$_limit"));
       setState(() {
         _posts = json.decode(res.body);
+        developer.log(_page.toString());
+        developer.log(_limit.toString());
       });
     } catch (err) {
       if (kDebugMode) {
@@ -130,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                             vertical: 8, horizontal: 10),
                         child: ListTile(
                           title: Text(_posts[index]['title']),
-                          subtitle: Text(_posts[index]['body']),
+                          subtitle: Text(_posts[index]['id_music'].toString()),
                         ),
                       ),
                     ),
