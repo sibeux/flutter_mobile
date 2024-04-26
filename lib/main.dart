@@ -56,7 +56,7 @@ Future<void> main(List<String> args) async {
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
     // runApp(const MainChatApp());
-    runApp(const MainLazyOneApp());
+    // runApp(const MainLazyOneApp());
     // runApp(const MainLazyTwoApp());
     // runApp(const ProviderScope(child: MainMusicPlayerApp()));
     // runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
