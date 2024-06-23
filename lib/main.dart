@@ -3,7 +3,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobile/SiHALAL-ecommerce-app/main_sihalal_app.dart';
 import 'package:flutter_mobile/course_kopianan/main_anan.dart';
 import 'package:flutter_mobile/udemy_max/chat_app/main_chat_app.dart';
 import 'package:flutter_mobile/udemy_max/dice_roller/gradient_container.dart';
@@ -61,8 +60,8 @@ Future<void> main(List<String> args) async {
     // runApp(const MainLazyOneApp());
     // runApp(const MainLazyTwoApp());
     // runApp(const MainToastOneApp());
-    runApp(LoginApp());
-    // runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    // runApp(LoginApp());
+    runApp(const ProviderScope(child: MainMusicPlayerApp()));
     // runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
   });
 }
