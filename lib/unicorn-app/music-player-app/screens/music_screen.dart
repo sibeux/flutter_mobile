@@ -155,6 +155,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
           physics: const ClampingScrollPhysics(),
           primary: false,
           itemBuilder: (context, index) {
+            print('index: $index');
             return InkWell(
               child: MusicList(
                 numberMusic: index + 1,

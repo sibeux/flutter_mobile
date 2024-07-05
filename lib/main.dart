@@ -19,9 +19,9 @@ import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen
 import 'package:flutter_mobile/unicorn-app/just-audio-background/main_just_audio_background.dart';
 import 'package:flutter_mobile/unicorn-app/lazy-load-scroll/main_lazy_1.dart';
 import 'package:flutter_mobile/unicorn-app/lazy-load-scroll/main_lazy_2.dart';
-import 'package:flutter_mobile/unicorn-app/login-session/login.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/main_music_app.dart';
 import 'package:flutter_mobile/unicorn-app/toast/main_toast_1.dart';
+import 'package:flutter_mobile/unicorn-app/upload-image/upload_image_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -60,8 +60,8 @@ Future<void> main(List<String> args) async {
     // runApp(const MainLazyOneApp());
     // runApp(const MainLazyTwoApp());
     // runApp(const MainToastOneApp());
-    // runApp(LoginApp());
-    runApp(const ProviderScope(child: MainMusicPlayerApp()));
+    runApp(const UploadScreenApp());
+    // runApp(const ProviderScope(child: MainMusicPlayerApp()));
     // runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
   });
 }
