@@ -30,12 +30,12 @@ class MealsScreen extends StatelessWidget {
       children: [
         Text('No meals found!',
             style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 )),
         const SizedBox(height: 24),
         Text('Try changing your filters!',
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 )),
       ],
     ));

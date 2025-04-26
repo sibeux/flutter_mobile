@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
                       )));
             },
             style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all<Color>(
+              overlayColor: WidgetStateProperty.all<Color>(
                   Color.fromARGB(71, 85, 38, 238)),
             ),
             child: Text("Go To Dashboard"),

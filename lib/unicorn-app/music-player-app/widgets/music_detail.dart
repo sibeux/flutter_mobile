@@ -119,7 +119,7 @@ class _MusicDetailState extends ConsumerState<MusicDetail> {
                     scale: 5,
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.low,
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withAlpha(175),
                     colorBlendMode: BlendMode.darken,
                     errorBuilder: (context, exception, stackTrace) {
                       return Container(

@@ -87,13 +87,13 @@ class FiltersScreen extends ConsumerWidget {
       title: Text(
         title,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
       ),
       subtitle: Text(
         subtitle,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
       ),
       activeColor: Theme.of(context).colorScheme.tertiary,

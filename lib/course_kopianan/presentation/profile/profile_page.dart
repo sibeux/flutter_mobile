@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: OutlinedButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
+                              shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                             side: BorderSide(
@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
+                              shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

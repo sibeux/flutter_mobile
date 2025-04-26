@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/components/dominant_color.dart';
 import 'package:flutter_mobile/unicorn-app/music-player-app/models/music.dart';
@@ -155,7 +156,9 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
           physics: const ClampingScrollPhysics(),
           primary: false,
           itemBuilder: (context, index) {
-            print('index: $index');
+            if (kDebugMode) {
+              print('index: $index');
+            }
             return InkWell(
               child: MusicList(
                 numberMusic: index + 1,
@@ -290,7 +293,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                             child: SizedBox(),
                           ),
                           IconButton(
-                            highlightColor: Colors.black.withOpacity(0.02),
+                            highlightColor: Colors.black.withAlpha(5),
                             icon: Icon(
                               Icons.list_rounded,
                               size: 30,

@@ -65,7 +65,7 @@ class MealDetailsScreen extends ConsumerWidget {
             Text(
               'Ingredients',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -73,13 +73,13 @@ class MealDetailsScreen extends ConsumerWidget {
             for (final ingridients in meal.ingredients)
               Text(ingridients,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       )),
             const SizedBox(height: 24),
             Text(
               'Steps',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -94,7 +94,7 @@ class MealDetailsScreen extends ConsumerWidget {
                   steps,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                 ),
               ),
