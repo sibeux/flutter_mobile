@@ -27,14 +27,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 // buat materi firebase
-// import 'firebase_options.dart';
+import 'firebase_options.dart';
 
 Future<void> main(List<String> args) async {
   // buat materi firebase
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // just audio background
   // await JustAudioBackground.init(
@@ -56,11 +56,11 @@ Future<void> main(List<String> args) async {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
-    // runApp(const MainChatApp());
+    runApp(const MainChatApp());
     // runApp(const MainLazyOneApp());
     // runApp(const MainLazyTwoApp());
     // runApp(const MainToastOneApp());
-    runApp(const UploadScreenApp());
+    // runApp(const UploadScreenApp());
     // runApp(const ProviderScope(child: MainMusicPlayerApp()));
     // runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
   });
