@@ -16,6 +16,7 @@ import 'package:flutter_mobile/udemy_max/shopping_list/shopping_list_app.dart';
 import 'package:flutter_mobile/udemy_max/todo_app/main_todo_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/main_music_app.dart';
 import 'package:flutter_mobile/unicorn-app/how-to-play-music/screen/music_screen.dart';
+import 'package:flutter_mobile/unicorn-app/isolate/isolate_screen.dart';
 import 'package:flutter_mobile/unicorn-app/just-audio-background/main_just_audio_background.dart';
 import 'package:flutter_mobile/unicorn-app/lazy-load-scroll/main_lazy_1.dart';
 import 'package:flutter_mobile/unicorn-app/lazy-load-scroll/main_lazy_2.dart';
@@ -64,4 +65,47 @@ Future<void> main(List<String> args) async {
     // runApp(const ProviderScope(child: MainMusicPlayerApp()));
     // runApp(const ProviderScope(child: MainJustAudioBackgroundApp()));
   });
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Mobile',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter Mobile'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Welcome to Flutter Mobile!'),
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to the main app
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const IsolateScreen()),
+                  );
+                },
+                child: const Text('Isolate Screen'),
+              ),
+            ],
+          ),
+        ),
+      )
+    );
+  }
 }
