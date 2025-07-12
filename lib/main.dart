@@ -50,6 +50,12 @@ Future<void> main(List<String> args) async {
       .then((fn) {
     // tinggal ganti MainApp-nya
 
+    runApp(
+      const ProviderScope(
+        child: MyApp(),
+      ),
+    );
+
     // runApp(const MainExpensesApp());
     // runApp(const MainTodoApp());
     // runApp(const ProviderScope(child: MainMealApp()));
@@ -57,7 +63,7 @@ Future<void> main(List<String> args) async {
     // runApp(const ShoppingListApp());
     // runApp(const ProviderScope(child: FavoriteAppMain()));
     // runApp(const MainMusicApp());
-    runApp(const MainChatApp());
+    // runApp(const MainChatApp());
     // runApp(const MainLazyOneApp());
     // runApp(const MainLazyTwoApp());
     // runApp(const MainToastOneApp());
@@ -83,29 +89,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         useMaterial3: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter Mobile'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Welcome to Flutter Mobile!'),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the main app
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const IsolateScreen()),
-                  );
-                },
-                child: const Text('Isolate Screen'),
-              ),
-            ],
-          ),
-        ),
-      )
+      home: IsolateScreen(), // Ganti dengan widget yang diinginkan
     );
   }
 }
